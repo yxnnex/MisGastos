@@ -111,6 +111,18 @@
       </button>
     </header>
 
+    <!-- TARJETA PESTAÑA DE BIENVENIDA (OCUPANDO ESPACIO PARA APRECIAR EL FONDO) -->
+    <section class="card-glass p-5 mb-4 border-blue-500/30 bg-gradient-to-r from-blue-900/30 via-slate-900/40 to-slate-900/70 text-center relative overflow-hidden">
+      <div class="flex items-center justify-center gap-2 mb-1">
+        <span class="text-xl">✨</span>
+        <h2 class="text-lg font-black text-white tracking-wide drop-shadow">¡Hola Manu!</h2>
+        <span class="text-xl">✨</span>
+      </div>
+      <p class="text-xs text-slate-300 font-medium leading-relaxed drop-shadow">
+        Toca las pestañas de abajo para desplegar las herramientas de tu billetera cuando las necesites.
+      </p>
+    </section>
+
     <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE -->
     <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
       <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible</span>
@@ -126,46 +138,51 @@
       </div>
     </section>
 
-    <!-- REGISTRAR GASTO -->
+    <!-- REGISTRAR GASTO (DESPLEGABLE / OCULTO POR DEFECTO) -->
     <section class="card-glass p-4 mb-4">
-      <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-1.5 drop-shadow">
-        <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
-      </h3>
+      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-registrar-gasto', 'icon-registrar-gasto')">
+        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+          <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
+        </h3>
+        <i id="icon-registrar-gasto" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
+      </div>
 
-      <form id="form-gasto" class="space-y-3">
-        <div class="grid grid-cols-2 gap-2">
-          <input type="number" step="any" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
-          <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas)" class="input-dark p-2.5 text-xs w-full">
-        </div>
-
-        <div>
-          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
-          <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
-            <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-              🛒 Supermercado
-            </button>
-            <button type="button" onclick="seleccionarCategoria('KIOSKO')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-              🍬 Kiosko
-            </button>
-            <button type="button" onclick="seleccionarCategoria('TRANSFERENCIAS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-              💸 Transferencias
-            </button>
-            <button type="button" onclick="seleccionarCategoria('SUSCRIPCIONES')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-              📺 Suscripciones
-            </button>
-            <button type="button" onclick="seleccionarCategoria('OTROS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1 col-span-2">
-              📦 Otros
-            </button>
+      <div id="sec-registrar-gasto" class="mt-3 hidden">
+        <form id="form-gasto" class="space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <input type="number" step="any" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
+            <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas)" class="input-dark p-2.5 text-xs w-full">
           </div>
-        </div>
 
-        <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500/90 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
-          <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
-        </button>
-      </form>
+          <div>
+            <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
+            <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
+              <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                🛒 Supermercado
+              </button>
+              <button type="button" onclick="seleccionarCategoria('KIOSKO')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                🍬 Kiosko
+              </button>
+              <button type="button" onclick="seleccionarCategoria('TRANSFERENCIAS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                💸 Transferencias
+              </button>
+              <button type="button" onclick="seleccionarCategoria('SUSCRIPCIONES')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                📺 Suscripciones
+              </button>
+              <button type="button" onclick="seleccionarCategoria('OTROS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1 col-span-2">
+                📦 Otros
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500/90 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
+            <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
+          </button>
+        </form>
+      </div>
     </section>
 
-    <!-- HISTORIAL DE GASTOS -->
+    <!-- HISTORIAL DE GASTOS (DESPLEGABLE / OCULTO POR DEFECTO) -->
     <section class="card-glass p-4 mb-4">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-historial', 'icon-historial')">
         <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -175,25 +192,25 @@
           <button type="button" onclick="event.stopPropagation(); abrirModalGrafico();" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 font-bold px-2 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
             <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Categorías
           </button>
-          <i id="icon-historial" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200"></i>
+          <i id="icon-historial" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
         </div>
       </div>
 
-      <div id="sec-historial" class="mt-3 space-y-2 max-h-56 overflow-y-auto custom-scroll pr-1">
+      <div id="sec-historial" class="mt-3 space-y-2 max-h-56 overflow-y-auto custom-scroll pr-1 hidden">
         <!-- Gastos e hilos por mes insertados dinámicamente -->
       </div>
     </section>
 
-    <!-- PAGOS PENDIENTES -->
+    <!-- PAGOS PENDIENTES (DESPLEGABLE / OCULTO POR DEFECTO) -->
     <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
         <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
           <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
         </h3>
-        <i id="icon-pendientes" data-lucide="chevron-down" class="w-5 h-5 text-indigo-300 transition-transform duration-200"></i>
+        <i id="icon-pendientes" data-lucide="chevron-down" class="w-5 h-5 text-indigo-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
       </div>
 
-      <div id="sec-pendientes" class="mt-3">
+      <div id="sec-pendientes" class="mt-3 hidden">
         <form id="form-pendiente" class="grid grid-cols-5 gap-2 mb-3">
           <input type="text" id="pend-persona" placeholder="De quién (Ej: Pepito)" required class="input-dark p-2 text-xs col-span-2">
           <input type="number" step="any" id="pend-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
@@ -208,16 +225,16 @@
       </div>
     </section>
 
-    <!-- DINERO A RESERVAR -->
+    <!-- DINERO A RESERVAR (DESPLEGABLE / OCULTO POR DEFECTO) -->
     <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
         <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
           <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
         </h3>
-        <i id="icon-reservas" data-lucide="chevron-down" class="w-5 h-5 text-amber-300 transition-transform duration-200"></i>
+        <i id="icon-reservas" data-lucide="chevron-down" class="w-5 h-5 text-amber-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
       </div>
 
-      <div id="sec-reservas" class="mt-3 space-y-3">
+      <div id="sec-reservas" class="mt-3 space-y-3 hidden">
         <form id="form-reserva" class="space-y-2">
           <div class="grid grid-cols-5 gap-2">
             <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
@@ -259,9 +276,9 @@
       </p>
 
       <div>
-        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar:</label>
+        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar🐻:</label>
         <input type="password" id="input-clave-reset" placeholder="Contraseña..." class="input-dark p-2.5 text-xs w-full">
-        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta</p>
+        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta🦖</p>
       </div>
 
       <div class="flex gap-2">
@@ -375,11 +392,11 @@
       osc2.type = 'triangle';
 
       const now = audioCtx.currentTime;
-      osc1.frequency.setValueAtTime(523.25, now); // Nota C5
-      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.15); // Sube a A5
+      osc1.frequency.setValueAtTime(523.25, now);
+      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.15);
 
-      osc2.frequency.setValueAtTime(659.25, now); // Nota E5
-      osc2.frequency.exponentialRampToValueAtTime(1046.50, now + 0.15); // Sube a C6
+      osc2.frequency.setValueAtTime(659.25, now);
+      osc2.frequency.exponentialRampToValueAtTime(1046.50, now + 0.15);
 
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
@@ -533,7 +550,7 @@
       document.getElementById('ingreso-monto').value = '';
       document.getElementById('ingreso-motivo').value = '';
       cerrarModalIngreso();
-      reproducirSonidoIngreso(); // Sonido al ingresar dinero
+      reproducirSonidoIngreso();
       guardar();
     }
 
@@ -586,7 +603,7 @@
 
       document.getElementById('gasto-monto').value = '';
       document.getElementById('gasto-detalle').value = '';
-      reproducirSonidoGasto(); // Sonido al registrar un gasto
+      reproducirSonidoGasto();
       guardar();
     });
 
@@ -613,12 +630,10 @@
       const gIndex = gastos.findIndex(item => item.id === gastoSeleccionadoId);
       if (gIndex !== -1) {
         if (sumarDinero) {
-          // Devuelve el dinero a la billetera y borra el elemento del todo
           disponible += gastos[gIndex].monto;
           gastos.splice(gIndex, 1);
-          reproducirSonidoIngreso(); // Sonido al restaurar dinero
+          reproducirSonidoIngreso();
         } else {
-          // No devuelve el dinero y lo deja como movimiento fantasma tachado
           gastos[gIndex].tachado = true;
         }
       }
@@ -655,7 +670,7 @@
       });
 
       pendientes = pendientes.filter(p => p.id !== id);
-      reproducirSonidoIngreso(); // Sonido al recibir cobro pendiente
+      reproducirSonidoIngreso();
       guardar();
     }
 
@@ -670,7 +685,7 @@
       reservas.push({ id: Date.now(), motivo, monto });
       document.getElementById('reserva-motivo').value = '';
       document.getElementById('reserva-monto').value = '';
-      reproducirSonidoGasto(); // Sonido al reservar dinero
+      reproducirSonidoGasto();
       guardar();
     });
 
@@ -791,7 +806,6 @@
 
     function renderChart() {
       const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES', 'OTROS'];
-      // Solo sumamos los gastos que NO estén tachados/cancelados
       const totales = categorias.map(cat => {
         return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => acc + curr.monto, 0);
       });
