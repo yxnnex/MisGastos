@@ -172,7 +172,7 @@
       <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
         <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
         <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
-        <p id="desglose-saldo-txt" class="text-[10px] text-slate-400 mb-2">($0,00 Pesos + $0,00 UYU de Dólares)</p>
+        <p id="desglose-saldo-txt" class="text-[10px] text-slate-400 mb-2">($0,00 Pesos + $0,00 de PayPal)</p>
         
         <div class="mt-1 flex justify-center gap-2">
           <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
@@ -515,8 +515,8 @@
         </button>
       </div>
 
-      <div class="w-full flex justify-center py-2">
-        <canvas id="chart-torta" class="max-w-[220px] max-h-[220px]"></canvas>
+      <div id="contenedor-canvas-grafico" class="w-full flex justify-center py-2 relative min-h-[220px]">
+        <canvas id="chart-torta" width="220" height="220" class="max-w-[220px] max-h-[220px]"></canvas>
       </div>
 
       <button onclick="cerrarModalGrafico()" class="w-full py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
@@ -1027,7 +1027,8 @@
       document.getElementById('equivalente-uyu-txt').textContent = `Equivalen a ${formatMoney(usdEnUYU, 'UYU')} ($${cotizacionDolar.toFixed(2)} UYU/USD)`;
 
       document.getElementById('total-disponible').textContent = formatMoney(disponibleTotalUYU, 'UYU');
-      document.getElementById('desglose-saldo-txt').textContent = `(${formatMoney(disponibleUYU, 'UYU')} en Pesos + ${formatMoney(usdEnUYU, 'UYU')} de Dólares)`;
+      // CAMBIO REALIZADO: "de PayPal"
+      document.getElementById('desglose-saldo-txt').textContent = `(${formatMoney(disponibleUYU, 'UYU')} en Pesos + ${formatMoney(usdEnUYU, 'UYU')} de PayPal)`;
 
       // Render Historial de Gastos con Separadores por Mes
       const listaGastosEl = document.getElementById('sec-historial');
@@ -1128,7 +1129,7 @@
     function abrirModalGrafico() {
       document.getElementById('modal-grafico').classList.remove('hidden');
       document.getElementById('modal-grafico').classList.add('flex');
-      renderChart();
+      setTimeout(renderChart, 50); // Timeout pequeño para asegurar render de dimensiones
     }
     function cerrarModalGrafico() {
       document.getElementById('modal-grafico').classList.add('hidden');
@@ -1136,15 +1137,26 @@
     }
 
     function renderChart() {
+      const contenedor = document.getElementById('contenedor-canvas-grafico');
       const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES', 'OTROS'];
+      
       const totales = categorias.map(cat => {
         return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => {
-          const montoEnUYU = g.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto;
+          const montoEnUYU = curr.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto;
           return acc + montoEnUYU;
         }, 0);
       });
 
+      const hayGastos = totales.some(t => t > 0);
+
+      if (!hayGastos) {
+        contenedor.innerHTML = `<p class="text-xs text-slate-400 italic my-auto text-center">No hay gastos registrados para graficar.</p>`;
+        return;
+      }
+
+      contenedor.innerHTML = `<canvas id="chart-torta" width="220" height="220" class="max-w-[220px] max-h-[220px]"></canvas>`;
       const ctx = document.getElementById('chart-torta').getContext('2d');
+
       if (chartInstance) chartInstance.destroy();
 
       chartInstance = new Chart(ctx, {
@@ -1153,13 +1165,14 @@
           labels: ['Supermercado', 'Kiosko', 'Transferencias', 'Suscripciones', 'Otros'],
           datasets: [{
             data: totales,
-            backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6', '#64748b'],
+            backgroundColor: ['#f43f5e', '#f59e0b', '#3b82f6', '#8b5cf6', '#64748b'],
             borderWidth: 2,
             borderColor: '#0f172a'
           }]
         },
         options: {
           responsive: true,
+          maintainAspectRatio: true,
           plugins: {
             legend: {
               position: 'bottom',
