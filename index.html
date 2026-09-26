@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control de Finanzas - Manu</title>
+  <title>Control de Finanzas - M&K</title>
 
   <!-- Configuración de ícono para Android y navegadores móviles -->
   <link rel="icon" type="image/png" sizes="192x192" href="kylian.png">
@@ -102,7 +102,7 @@
         <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
         <div>
           <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
-          <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">Manu</p>
+          <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">M&K</p>
         </div>
       </div>
       <button onclick="reiniciarApp()" title="Reiniciar datos" class="p-2 text-slate-300 hover:text-rose-400 transition-colors bg-slate-900/40 rounded-xl border border-white/10">
@@ -140,7 +140,7 @@
 
         <!-- Categorías Abajo -->
         <div>
-          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
+          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
           <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
             <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
               🛒 Supermercado
@@ -221,7 +221,7 @@
       <div id="sec-reservas" class="mt-3 space-y-3">
         <form id="form-reserva" class="space-y-2">
           <div class="grid grid-cols-5 gap-2">
-            <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
+            <input type="text" id="reserva-motivo" placeholder="Para (Ej: Alquiler)" required class="input-dark p-2 text-xs col-span-2">
             <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
             <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
               Reservar
@@ -232,7 +232,7 @@
         <!-- Resumen del remanente -->
         <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
           <p class="text-[11px] text-slate-200">
-            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
+            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> .
           </p>
         </div>
 
