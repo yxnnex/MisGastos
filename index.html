@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control de Finanzas - M&K</title>
+  <title>Control de Finanzas - M & K</title>
 
   <!-- Configuración de ícono para Android y navegadores móviles -->
   <link rel="icon" type="image/png" sizes="192x192" href="kylian.png">
@@ -13,7 +13,7 @@
   <link rel="apple-touch-icon" href="kylian.png">
   
   <!-- Configuración de color de barra de navegación móvil -->
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#070b12">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -25,7 +25,7 @@
 
   <style>
     body {
-      background-color: #090d16;
+      background-color: #05080e;
       color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
@@ -35,25 +35,25 @@
       max-width: 430px;
       margin: 0 auto;
       min-height: 100vh;
-      /* Fondo dinámico responsivo para móviles */
-      background: url('kysuo.jpg') center top / cover no-repeat fixed #0f172a;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+      /* Fondo dinámico responsivo para móviles con un tinte oscuro encima para legibilidad */
+      background: linear-gradient(to bottom, rgba(5, 8, 14, 0.75), rgba(5, 8, 14, 0.85)), url('kysuo.jpg') center top / cover no-repeat fixed #070b12;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
     }
     
-    /* Estilos Glassmorphism */
+    /* Estilos Glassmorphism más oscuros y contrastados */
     .card-glass {
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(9, 14, 26, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.6);
       border-radius: 24px;
     }
     
     .input-dark {
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(5, 9, 17, 0.85);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.22);
       color: white;
       border-radius: 14px;
     }
@@ -63,7 +63,7 @@
     .input-dark:focus {
       outline: none;
       border-color: #3b82f6;
-      background: rgba(15, 23, 42, 0.7);
+      background: rgba(5, 9, 17, 0.95);
     }
     
     .custom-scroll::-webkit-scrollbar {
@@ -78,16 +78,16 @@
     .cat-btn {
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(9, 14, 26, 0.7);
       backdrop-filter: blur(6px);
       color: #cbd5e1;
     }
     .cat-btn.active {
-      background: rgba(244, 63, 94, 0.25);
+      background: rgba(244, 63, 94, 0.3);
       border-color: #f43f5e;
       color: #ffffff;
       font-weight: 700;
-      box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
     }
 
     /* Transición suave de entrada para el contenido */
@@ -114,7 +114,7 @@
     
     <!-- PANTALLA DE CARGA / SPLASH SCREEN -->
     <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center transition-all bg-transparent">
-      <div class="card-glass p-8 flex flex-col items-center gap-4 border-blue-400/40 bg-slate-950/80 shadow-2xl backdrop-blur-md max-w-xs w-full">
+      <div class="card-glass p-8 flex flex-col items-center gap-4 border-blue-400/40 bg-slate-950/90 shadow-2xl backdrop-blur-md max-w-xs w-full">
         <img src="kylian.png" alt="Logo" class="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" onerror="this.style.display='none'">
         <div>
           <h2 class="text-2xl font-black text-white tracking-wide flex items-center justify-center gap-1.5 drop-shadow-md">
@@ -143,22 +143,22 @@
           </div>
         </div>
         <!-- Tachito de Basura con Clave -->
-        <button onclick="abrirModalResetClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/40 rounded-xl border border-rose-500/20 active:scale-95">
+        <button onclick="abrirModalResetClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/60 rounded-xl border border-rose-500/20 active:scale-95">
           <i data-lucide="trash-2" class="w-5 h-5"></i>
         </button>
       </header>
 
       <!-- TARJETA USD: DINERO EN DÓLARES (PAYPAL) -->
-      <section class="card-glass p-4 mb-3 border-blue-500/30 bg-gradient-to-br from-blue-500/15 via-slate-900/40 to-slate-900/80 text-center relative overflow-hidden">
+      <section class="card-glass p-4 mb-3 border-blue-500/30 bg-gradient-to-br from-blue-500/20 via-slate-950/80 to-slate-950/90 text-center relative overflow-hidden">
         <div class="flex justify-between items-center mb-1">
           <span class="text-[11px] font-bold text-blue-300 uppercase tracking-widest flex items-center gap-1">
             <i data-lucide="wallet" class="w-3.5 h-3.5"></i> Saldo en Dólares (PayPal)
           </span>
           <div class="flex items-center gap-1">
-            <button onclick="abrirModalAjusteCotizacion()" class="text-[10px] bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-white/10 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
+            <button onclick="abrirModalAjusteCotizacion()" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-white/10 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
               ✏️ Cotización
             </button>
-            <button onclick="abrirModalIngresoUSD()" class="text-[10px] bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
+            <button onclick="abrirModalIngresoUSD()" class="text-[10px] bg-blue-500/30 hover:bg-blue-500/40 text-blue-200 border border-blue-400/30 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
               + Ingresar USD
             </button>
           </div>
@@ -169,16 +169,16 @@
       </section>
 
       <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE (PESOS URUGUAYOS + EQUIVALENTE DÓLARES) -->
-      <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
-        <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
+      <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 via-slate-950/80 to-slate-950/90">
+        <span class="text-xs font-bold text-slate-200 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
         <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
-        <p id="desglose-saldo-txt" class="text-[10px] text-slate-400 mb-2">($0,00 Pesos + $0,00 de PayPal)</p>
+        <p id="desglose-saldo-txt" class="text-[11px] text-slate-300 font-medium mb-2">($0,00 en Pesos + $0,00 de PayPal)</p>
         
         <div class="mt-1 flex justify-center gap-2">
-          <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
+          <button onclick="abrirModalIngreso()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
             <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar UYU
           </button>
-          <button onclick="abrirModalHistorialIngresos()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-md border border-white/15 transition-all active:scale-95 backdrop-blur-md">
+          <button onclick="abrirModalHistorialIngresos()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-md border border-white/15 transition-all active:scale-95 backdrop-blur-md">
             <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Ver ingresos
           </button>
         </div>
@@ -205,7 +205,7 @@
             <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas / Pago Paypal)" class="input-dark p-2.5 text-xs w-full">
 
             <div>
-              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
+              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
               <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
                 <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
                   🛒 Supermercado
@@ -225,7 +225,7 @@
               </div>
             </div>
 
-            <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500/90 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
               <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
             </button>
           </form>
@@ -239,7 +239,7 @@
             <i data-lucide="receipt" class="w-4 h-4 text-blue-400"></i> Historial de Gastos
           </h3>
           <div class="flex items-center gap-2">
-            <button type="button" onclick="event.stopPropagation(); abrirModalGrafico();" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 font-bold px-2 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
+            <button type="button" onclick="event.stopPropagation(); abrirModalGrafico();" class="text-xs bg-blue-500/30 hover:bg-blue-500/40 text-blue-200 border border-blue-400/30 font-bold px-2 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
               <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Categorías
             </button>
             <i id="icon-historial" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
@@ -252,7 +252,7 @@
       </section>
 
       <!-- PAGOS PENDIENTES (SOPORTE MULTIMONEDA UYU Y USD) -->
-      <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
+      <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-950/50">
         <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
           <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
             <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
@@ -268,7 +268,7 @@
               <option value="UYU">UYU</option>
               <option value="USD">USD</option>
             </select>
-            <button type="submit" class="bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
               <i data-lucide="plus" class="w-4 h-4"></i>
             </button>
           </form>
@@ -280,7 +280,7 @@
       </section>
 
       <!-- DINERO A RESERVAR -->
-      <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
+      <section class="card-glass p-4 border-amber-500/30 bg-amber-950/40">
         <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
           <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
             <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
@@ -291,7 +291,7 @@
         <div id="sec-reservas" class="mt-3 space-y-3 hidden">
           <form id="form-reserva" class="space-y-2">
             <div class="grid grid-cols-5 gap-2">
-              <input type="text" id="reserva-motivo" placeholder="Para (Ej: Alquiler)" required class="input-dark p-2 text-xs col-span-2">
+              <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Alquiler)" required class="input-dark p-2 text-xs col-span-2">
               <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
               <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
                 Reservar
@@ -299,9 +299,9 @@
             </div>
           </form>
 
-          <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
+          <div class="p-2.5 rounded-xl bg-slate-950/80 border border-amber-500/25 backdrop-blur-md text-center">
             <p class="text-[11px] text-slate-200">
-              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> 
+              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong>
             </p>
           </div>
 
@@ -316,8 +316,8 @@
   </div>
 
   <!-- MODAL ESTÉTICO: ELEGIR DESTINO DE COBRO PENDIENTE -->
-  <div id="modal-eleccion-cobro" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-indigo-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
+  <div id="modal-eleccion-cobro" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-indigo-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center">
         <h3 class="text-xs font-bold text-indigo-300 flex items-center gap-2 uppercase tracking-wide">
           <i data-lucide="arrow-down-right" class="w-4 h-4 text-emerald-400"></i> Recibir Pago Pendiente
@@ -332,24 +332,24 @@
       </p>
 
       <div class="space-y-2">
-        <button onclick="seleccionarMonedaCobroDestino('USD')" class="w-full p-3 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+        <button onclick="seleccionarMonedaCobroDestino('USD')" class="w-full p-3 rounded-xl bg-blue-500/25 hover:bg-blue-500/35 text-blue-200 border border-blue-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
           <i data-lucide="wallet" class="w-4 h-4"></i> Saldo USD (PayPal)
         </button>
-        <button onclick="seleccionarMonedaCobroDestino('UYU')" class="w-full p-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+        <button onclick="seleccionarMonedaCobroDestino('UYU')" class="w-full p-3 rounded-xl bg-emerald-500/25 hover:bg-emerald-500/35 text-emerald-200 border border-emerald-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
           <i data-lucide="coins" class="w-4 h-4"></i> Saldo UYU (Pesos)
         </button>
       </div>
 
-      <button onclick="cerrarModalEleccionCobro()" class="w-full py-2 rounded-xl bg-slate-800/80 text-slate-400 font-bold text-xs border border-white/10">Cancelar</button>
+      <button onclick="cerrarModalEleccionCobro()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
     </div>
   </div>
 
   <!-- MODAL ESTÉTICO: CONFIRMAR MONTO REAL TRAS COMISIONES -->
-  <div id="modal-confirmar-monto-real" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
+  <div id="modal-confirmar-monto-real" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center">
         <h3 class="text-xs font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wide">
-          <i data-lucide="calculator" class="w-4 h-4"></i> Confirmar Monto
+          <i data-lucide="calculator" class="w-4 h-4"></i> Confirmar Monto Real
         </h3>
         <button onclick="cerrarModalMontoReal()" class="text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -361,38 +361,38 @@
       </p>
 
       <div>
-        <label id="lbl-input-monto-real" class="block text-[11px] text-slate-400 mb-1">Monto exacto recibido:</label>
+        <label id="lbl-input-monto-real" class="block text-[11px] text-slate-300 mb-1">Monto exacto recibido:</label>
         <input type="number" step="any" id="input-monto-real-valor" placeholder="Monto real..." class="input-dark p-3 text-sm font-bold w-full text-center">
       </div>
 
       <div class="flex gap-2">
-        <button onclick="cerrarModalMontoReal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarIngresoMontoRealFinal()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Aceptar</button>
+        <button onclick="cerrarModalMontoReal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarIngresoMontoRealFinal()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Aceptar</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL: AJUSTAR COTIZACIÓN PAYPAL / DÓLAR -->
-  <div id="modal-cotizacion" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
+  <div id="modal-cotizacion" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4">
       <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
-        <i data-lucide="edit-3" class="w-4 h-4"></i> Cotización PayPal (UYU/USD)
+        <i data-lucide="edit-3" class="w-4 h-4"></i> Cotización Real PayPal (UYU/USD)
       </h3>
-      <p class="text-[11px] text-slate-300">
+      <p class="text-[11px] text-slate-200">
         Ingresa cuántos Pesos Uruguayos te paga PayPal por cada Dólar después de aplicar sus comisiones:
       </p>
       <input type="number" step="any" id="input-cotizacion-manual" placeholder="Ej: 38.5" class="input-dark p-3 text-sm w-full text-center font-bold">
       
       <div class="flex gap-2">
-        <button onclick="cerrarModalAjusteCotizacion()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="guardarCotizacionManual()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Guardar</button>
+        <button onclick="cerrarModalAjusteCotizacion()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="guardarCotizacionManual()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Guardar</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL: INGRESAR DÓLARES (PAYPAL) -->
-  <div id="modal-ingreso-usd" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
+  <div id="modal-ingreso-usd" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4">
       <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
         <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dólares (USD)
       </h3>
@@ -400,15 +400,15 @@
       <input type="text" id="ingreso-usd-motivo" placeholder="Origen (Ej: PayPal, Cliente...)" class="input-dark p-3 text-sm w-full">
       
       <div class="flex gap-2">
-        <button onclick="cerrarModalIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Añadir USD</button>
+        <button onclick="cerrarModalIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Añadir USD</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL GLASS: REINICIAR CON CONTRASEÑA -->
-  <div id="modal-reset-clave" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
+  <div id="modal-reset-clave" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
           <i data-lucide="alert-triangle" class="w-4 h-4"></i> Eliminar Billetera
@@ -419,25 +419,25 @@
       </div>
 
       <p class="text-xs text-slate-200 text-center font-medium">
-        Vas a eliminar todo los datos de tu billetera Kyliana🦖.
+        Vas a eliminar todos los datos de tu billetera🦖 Y no hay vuelta atrás! .
       </p>
 
       <div>
-        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar🐻:</label>
+        <label class="block text-[11px] text-slate-300 mb-1">Ingresa la contraseña para continuar🐻:</label>
         <input type="password" id="input-clave-reset" placeholder="Contraseña..." class="input-dark p-2.5 text-xs w-full">
         <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta🦖</p>
       </div>
 
       <div class="flex gap-2">
-        <button onclick="cerrarModalResetClave()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarResetClave()" class="w-1/2 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-500/30 border border-rose-400/40">Aceptar</button>
+        <button onclick="cerrarModalResetClave()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarResetClave()" class="w-1/2 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs shadow-lg shadow-rose-500/30 border border-rose-400/40">Aceptar</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL: INGRESO DE DINERO (UYU) -->
-  <div id="modal-ingreso" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4">
+  <div id="modal-ingreso" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-950/95 space-y-4">
       <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
         <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero (UYU)
       </h3>
@@ -445,15 +445,15 @@
       <input type="text" id="ingreso-motivo" placeholder="Origen (Ej: Sueldo, Venta...)" class="input-dark p-3 text-sm w-full">
       
       <div class="flex gap-2">
-        <button onclick="cerrarModalIngreso()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarIngreso()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Añadir</button>
+        <button onclick="cerrarModalIngreso()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarIngreso()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Añadir</button>
       </div>
     </div>
   </div>
 
   <!-- MODAL: HISTORIAL DE INGRESOS -->
-  <div id="modal-historial-ingresos" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4">
+  <div id="modal-historial-ingresos" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-950/95 space-y-4">
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
           <i data-lucide="history" class="w-4 h-4"></i> Historial de Ingresos
@@ -467,13 +467,13 @@
         <!-- Ingresos cargados dinámicamente -->
       </div>
 
-      <button onclick="cerrarModalHistorialIngresos()" class="w-full py-2 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
+      <button onclick="cerrarModalHistorialIngresos()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
     </div>
   </div>
 
   <!-- MODAL: OPCIONES DE ELIMINAR GASTO DE HISTORIAL -->
-  <div id="modal-eliminar-gasto" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-900/90 space-y-4">
+  <div id="modal-eliminar-gasto" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-950/95 space-y-4">
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
           <i data-lucide="trash-2" class="w-4 h-4"></i> Opciones de Eliminación
@@ -483,29 +483,29 @@
         </button>
       </div>
 
-      <p class="text-xs text-slate-300 text-center">
+      <p class="text-xs text-slate-200 text-center">
         ¿Qué deseas hacer con este movimiento registrado?
       </p>
 
       <div class="space-y-2">
         <button onclick="procesarEliminarGasto(true)" class="w-full p-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
           <span class="font-bold flex items-center gap-1"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Eliminar y sumar dinero (+<span id="monto-restaurar-txt">$0</span>)</span>
-          <span class="text-[10px] text-slate-400 font-normal">Suma el dinero devuelta a tu billetera disponible.</span>
+          <span class="text-[10px] text-slate-300 font-normal">Suma el dinero de vuelta a tu billetera disponible.</span>
         </button>
 
-        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-600/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
-          <span class="font-bold flex items-center gap-1 text-slate-200"><i data-lucide="ghost" class="w-3.5 h-3.5 text-slate-400"></i> Marcar como eliminado (movimiento fantasma)</span>
-          <span class="text-[10px] text-slate-400 font-normal">Mantiene el monto descontado pero oculta el detalle y muestra solo "Movimiento eliminado".</span>
+        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-600/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
+          <span class="font-bold flex items-center gap-1 text-slate-200"><i data-lucide="ghost" class="w-3.5 h-3.5 text-slate-400"></i> Marcar como eliminado (fantasma)</span>
+          <span class="text-[10px] text-slate-300 font-normal">Mantiene el monto descontado pero oculta el detalle.</span>
         </button>
       </div>
 
-      <button onclick="cerrarModalEliminarGasto()" class="w-full py-2 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+      <button onclick="cerrarModalEliminarGasto()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
     </div>
   </div>
 
   <!-- MODAL: GRÁFICO DE TORTA -->
-  <div id="modal-grafico" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
-    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
+  <div id="modal-grafico" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4">
       <div class="flex justify-between items-center">
         <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
           <i data-lucide="pie-chart" class="w-4 h-4"></i> Gastos por Categoría
@@ -515,11 +515,11 @@
         </button>
       </div>
 
-      <div id="contenedor-canvas-grafico" class="w-full flex justify-center py-2 relative min-h-[220px]">
-        <canvas id="chart-torta" width="220" height="220" class="max-w-[220px] max-h-[220px]"></canvas>
+      <div class="w-full flex justify-center py-2 relative h-[220px]">
+        <canvas id="chart-torta"></canvas>
       </div>
 
-      <button onclick="cerrarModalGrafico()" class="w-full py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
+      <button onclick="cerrarModalGrafico()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
     </div>
   </div>
 
@@ -812,14 +812,14 @@
     function renderIngresos() {
       const container = document.getElementById('lista-ingresos');
       if (ingresos.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-3">No hay ingresos registrados aún</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-3">No hay ingresos registrados aún</p>`;
         return;
       }
       container.innerHTML = ingresos.map(ing => `
-        <div class="p-2.5 rounded-xl bg-slate-950/40 border border-emerald-500/20 text-xs flex justify-between items-center">
+        <div class="p-2.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs flex justify-between items-center shadow-md">
           <div>
             <p class="font-bold text-slate-100">${ing.motivo}</p>
-            <p class="text-[10px] text-slate-400">${ing.fechaHora}</p>
+            <p class="text-[10px] text-slate-300">${ing.fechaHora}</p>
           </div>
           <span class="font-black text-emerald-400">+${formatMoney(ing.monto, ing.moneda || 'UYU')}</span>
         </div>
@@ -1027,13 +1027,12 @@
       document.getElementById('equivalente-uyu-txt').textContent = `Equivalen a ${formatMoney(usdEnUYU, 'UYU')} ($${cotizacionDolar.toFixed(2)} UYU/USD)`;
 
       document.getElementById('total-disponible').textContent = formatMoney(disponibleTotalUYU, 'UYU');
-      // CAMBIO REALIZADO: "de PayPal"
       document.getElementById('desglose-saldo-txt').textContent = `(${formatMoney(disponibleUYU, 'UYU')} en Pesos + ${formatMoney(usdEnUYU, 'UYU')} de PayPal)`;
 
       // Render Historial de Gastos con Separadores por Mes
       const listaGastosEl = document.getElementById('sec-historial');
       if (gastos.length === 0) {
-        listaGastosEl.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-2">Sin gastos registrados</p>`;
+        listaGastosEl.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-2">Sin gastos registrados</p>`;
       } else {
         let htmlGastos = '';
         let ultimoMes = '';
@@ -1043,9 +1042,9 @@
           if (mesActual !== ultimoMes) {
             htmlGastos += `
               <div class="flex items-center gap-2 my-2.5">
-                <div class="h-[1px] bg-blue-400/30 flex-1"></div>
-                <span class="text-[10px] font-bold tracking-wider uppercase text-blue-300 bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-400/20">${mesActual}</span>
-                <div class="h-[1px] bg-blue-400/30 flex-1"></div>
+                <div class="h-[1px] bg-blue-400/40 flex-1"></div>
+                <span class="text-[10px] font-bold tracking-wider uppercase text-blue-200 bg-blue-950/80 px-2 py-0.5 rounded-full border border-blue-400/30">${mesActual}</span>
+                <div class="h-[1px] bg-blue-400/40 flex-1"></div>
               </div>
             `;
             ultimoMes = mesActual;
@@ -1054,24 +1053,24 @@
           const esTachado = g.tachado === true;
 
           htmlGastos += `
-            <div class="flex justify-between items-center p-2.5 rounded-xl ${esTachado ? 'bg-slate-950/20 opacity-50 border-slate-700/30' : 'bg-slate-950/40 border-white/10'} border backdrop-blur-md text-xs transition-all">
+            <div class="flex justify-between items-center p-2.5 rounded-xl ${esTachado ? 'bg-slate-900/30 opacity-50 border-slate-700/30' : 'bg-slate-900/90 border-white/15'} border backdrop-blur-md text-xs transition-all shadow-md">
               <div>
                 <div class="flex items-center gap-1.5">
                   <span class="font-bold ${esTachado ? 'line-through text-slate-400' : 'text-slate-100'}">
                     ${esTachado ? 'Movimiento eliminado' : g.detalle}
                   </span>
                   ${esTachado ? `
-                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/60 text-slate-400 border border-slate-700 font-semibold">Eliminado</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-semibold">Eliminado</span>
                   ` : `
-                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-white/10 font-semibold">${g.categoria}</span>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-white/15 font-semibold">${g.categoria}</span>
                   `}
                 </div>
-                <p class="text-[10px] text-slate-400 mt-0.5">${g.fechaHora}</p>
+                <p class="text-[10px] text-slate-300 mt-0.5">${g.fechaHora}</p>
               </div>
               <div class="flex items-center gap-2">
                 <span class="font-black ${esTachado ? 'line-through text-slate-500' : 'text-rose-400'}">-${formatMoney(g.monto, g.moneda || 'UYU')}</span>
                 ${!esTachado ? `
-                  <button onclick="abrirOpcionesEliminarGasto(${g.id})" title="Eliminar opción" class="text-slate-400 hover:text-rose-400 transition-colors p-1 rounded-lg hover:bg-slate-800/50">
+                  <button onclick="abrirOpcionesEliminarGasto(${g.id})" title="Eliminar opción" class="text-slate-300 hover:text-rose-400 transition-colors p-1 rounded-lg hover:bg-slate-800">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   </button>
                 ` : ''}
@@ -1085,15 +1084,15 @@
       // Render Pendientes
       const listaPendEl = document.getElementById('lista-pendientes');
       if (pendientes.length === 0) {
-        listaPendEl.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-2">Sin cobros pendientes</p>`;
+        listaPendEl.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-2">Sin cobros pendientes</p>`;
       } else {
         listaPendEl.innerHTML = pendientes.map(p => `
-          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-indigo-500/20 backdrop-blur-md text-xs">
+          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/90 border border-indigo-500/30 backdrop-blur-md text-xs shadow-md">
             <div>
               <p class="font-bold text-slate-100">${p.persona}</p>
               <p class="text-[10px] text-indigo-300 font-bold">${formatMoney(p.monto, p.moneda || 'UYU')} pendientes</p>
             </div>
-            <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 active:scale-95">
+            <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/30 hover:bg-emerald-500/40 text-emerald-200 border border-emerald-400/40 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 active:scale-95 shadow-sm">
               <i data-lucide="check" class="w-3 h-3"></i> Recibido
             </button>
           </div>
@@ -1107,15 +1106,15 @@
 
       const listaResEl = document.getElementById('lista-reservas');
       if (reservas.length === 0) {
-        listaResEl.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-2">No tienes dinero reservado</p>`;
+        listaResEl.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-2">No tienes dinero reservado</p>`;
       } else {
         listaResEl.innerHTML = reservas.map(r => `
-          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-amber-500/20 backdrop-blur-md text-xs">
+          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/90 border border-amber-500/30 backdrop-blur-md text-xs shadow-md">
             <div>
               <p class="font-bold text-slate-100">${r.motivo}</p>
               <p class="text-[10px] text-amber-300 font-bold">Reservado: ${formatMoney(r.monto, 'UYU')}</p>
             </div>
-            <button onclick="eliminarReserva(${r.id})" class="text-slate-400 hover:text-rose-400 transition-colors p-1">
+            <button onclick="eliminarReserva(${r.id})" class="text-slate-300 hover:text-rose-400 transition-colors p-1">
               <i data-lucide="trash-2" class="w-4 h-4"></i>
             </button>
           </div>
@@ -1129,7 +1128,7 @@
     function abrirModalGrafico() {
       document.getElementById('modal-grafico').classList.remove('hidden');
       document.getElementById('modal-grafico').classList.add('flex');
-      setTimeout(renderChart, 50); // Timeout pequeño para asegurar render de dimensiones
+      renderChart();
     }
     function cerrarModalGrafico() {
       document.getElementById('modal-grafico').classList.add('hidden');
@@ -1137,26 +1136,15 @@
     }
 
     function renderChart() {
-      const contenedor = document.getElementById('contenedor-canvas-grafico');
       const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES', 'OTROS'];
-      
       const totales = categorias.map(cat => {
         return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => {
-          const montoEnUYU = curr.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto;
+          const montoEnUYU = g.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto;
           return acc + montoEnUYU;
         }, 0);
       });
 
-      const hayGastos = totales.some(t => t > 0);
-
-      if (!hayGastos) {
-        contenedor.innerHTML = `<p class="text-xs text-slate-400 italic my-auto text-center">No hay gastos registrados para graficar.</p>`;
-        return;
-      }
-
-      contenedor.innerHTML = `<canvas id="chart-torta" width="220" height="220" class="max-w-[220px] max-h-[220px]"></canvas>`;
       const ctx = document.getElementById('chart-torta').getContext('2d');
-
       if (chartInstance) chartInstance.destroy();
 
       chartInstance = new Chart(ctx, {
@@ -1165,18 +1153,18 @@
           labels: ['Supermercado', 'Kiosko', 'Transferencias', 'Suscripciones', 'Otros'],
           datasets: [{
             data: totales,
-            backgroundColor: ['#f43f5e', '#f59e0b', '#3b82f6', '#8b5cf6', '#64748b'],
+            backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6', '#64748b'],
             borderWidth: 2,
             borderColor: '#0f172a'
           }]
         },
         options: {
           responsive: true,
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               position: 'bottom',
-              labels: { color: '#cbd5e1', font: { size: 10 } }
+              labels: { color: '#f1f5f9', font: { size: 10, weight: 'bold' } }
             }
           }
         }
