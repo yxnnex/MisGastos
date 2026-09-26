@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control de Finanzas - M & K</title>
+  <title>Control de Finanzas - M&K</title>
 
   <!-- Configuración de ícono para Android y navegadores móviles -->
   <link rel="icon" type="image/png" sizes="192x192" href="kylian.png">
@@ -35,12 +35,10 @@
       max-width: 430px;
       margin: 0 auto;
       min-height: 100vh;
-      /* Fondo dinámico responsivo para móviles con un tinte oscuro encima para legibilidad */
       background: linear-gradient(to bottom, rgba(5, 8, 14, 0.75), rgba(5, 8, 14, 0.85)), url('kysuo.jpg') center top / cover no-repeat fixed #070b12;
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.9);
     }
     
-    /* Estilos Glassmorphism más oscuros y contrastados */
     .card-glass {
       background: rgba(9, 14, 26, 0.88);
       backdrop-filter: blur(16px);
@@ -74,7 +72,6 @@
       border-radius: 4px;
     }
 
-    /* Botones de selección de categoría */
     .cat-btn {
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -90,7 +87,6 @@
       box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
     }
 
-    /* Transición suave de entrada para el contenido */
     .fade-in {
       animation: fadeIn 0.8s ease-in-out forwards;
     }
@@ -100,7 +96,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Transición de salida para el Splash Screen */
     .fade-out {
       opacity: 0;
       pointer-events: none;
@@ -135,31 +130,32 @@
       <!-- HEADER CON LOGO Y TACHITO DE BASURA -->
       <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
         <div class="flex items-center gap-3">
-          <!-- Logo de la página -->
           <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
           <div>
             <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
             <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">M&K</p>
           </div>
         </div>
-        <!-- Tachito de Basura con Clave -->
         <button onclick="abrirModalResetClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/60 rounded-xl border border-rose-500/20 active:scale-95">
           <i data-lucide="trash-2" class="w-5 h-5"></i>
         </button>
       </header>
 
-      <!-- TARJETA USD: DINERO EN DÓLARES (PAYPAL) -->
+      <!-- TARJETA USD: SALDO PAYPAL -->
       <section class="card-glass p-4 mb-3 border-blue-500/30 bg-gradient-to-br from-blue-500/20 via-slate-950/80 to-slate-950/90 text-center relative overflow-hidden">
         <div class="flex justify-between items-center mb-1">
           <span class="text-[11px] font-bold text-blue-300 uppercase tracking-widest flex items-center gap-1">
             <i data-lucide="wallet" class="w-3.5 h-3.5"></i> Saldo en Dólares (PayPal)
           </span>
           <div class="flex items-center gap-1">
+            <button onclick="abrirModalEditarSaldoUSD()" title="Editar saldo USD directamente" class="text-[10px] bg-blue-500/30 hover:bg-blue-500/50 text-blue-200 border border-blue-400/40 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95 flex items-center gap-1">
+              <i data-lucide="pencil" class="w-3 h-3"></i> Editar
+            </button>
             <button onclick="abrirModalAjusteCotizacion()" class="text-[10px] bg-slate-800 hover:bg-slate-700 text-slate-300 border border-white/10 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
               ✏️ Cotización
             </button>
             <button onclick="abrirModalIngresoUSD()" class="text-[10px] bg-blue-500/30 hover:bg-blue-500/40 text-blue-200 border border-blue-400/30 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
-              + Ingresar USD
+              + USD
             </button>
           </div>
         </div>
@@ -168,9 +164,14 @@
         <p id="equivalente-uyu-txt" class="text-[11px] text-slate-300 font-medium">Equivalen a $0,00 UYU tras comisiones de PayPal</p>
       </section>
 
-      <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE (PESOS URUGUAYOS + EQUIVALENTE DÓLARES) -->
+      <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE (UYU) -->
       <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/15 via-slate-950/80 to-slate-950/90">
-        <span class="text-xs font-bold text-slate-200 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-xs font-bold text-slate-200 uppercase tracking-widest drop-shadow flex-1 text-center">Dinero Disponible Total (UYU)</span>
+          <button onclick="abrirModalEditarSaldoUYU()" title="Editar saldo en Pesos directamente" class="text-[10px] bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-200 border border-emerald-400/40 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95 flex items-center gap-1">
+            <i data-lucide="pencil" class="w-3 h-3"></i> Editar
+          </button>
+        </div>
         <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
         <p id="desglose-saldo-txt" class="text-[11px] text-slate-300 font-medium mb-2">($0,00 en Pesos + $0,00 de PayPal)</p>
         
@@ -184,7 +185,7 @@
         </div>
       </section>
 
-      <!-- REGISTRAR GASTO (DESPLEGABLE / OCULTO POR DEFECTO) -->
+      <!-- REGISTRAR GASTO -->
       <section class="card-glass p-4 mb-4">
         <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-registrar-gasto', 'icon-registrar-gasto')">
           <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -205,7 +206,7 @@
             <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas / Pago Paypal)" class="input-dark p-2.5 text-xs w-full">
 
             <div>
-              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
+              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
               <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
                 <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
                   🛒 Supermercado
@@ -232,7 +233,7 @@
         </div>
       </section>
 
-      <!-- HISTORIAL DE GASTOS (DESPLEGABLE / OCULTO POR DEFECTO) -->
+      <!-- HISTORIAL DE GASTOS -->
       <section class="card-glass p-4 mb-4">
         <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-historial', 'icon-historial')">
           <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -247,11 +248,11 @@
         </div>
 
         <div id="sec-historial" class="mt-3 space-y-2 max-h-56 overflow-y-auto custom-scroll pr-1 hidden">
-          <!-- Gastos e hilos por mes insertados dinámicamente -->
+          <!-- Gastos insertados dinámicamente -->
         </div>
       </section>
 
-      <!-- PAGOS PENDIENTES (SOPORTE MULTIMONEDA UYU Y USD) -->
+      <!-- PAGOS PENDIENTES -->
       <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-950/50">
         <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
           <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -274,7 +275,7 @@
           </form>
 
           <div id="lista-pendientes" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
-            <!-- Pendientes insertados dinámicamente -->
+            <!-- Pendientes insertados -->
           </div>
         </div>
       </section>
@@ -301,7 +302,7 @@
 
           <div class="p-2.5 rounded-xl bg-slate-950/80 border border-amber-500/25 backdrop-blur-md text-center">
             <p class="text-[11px] text-slate-200">
-              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong>
+              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
             </p>
           </div>
 
@@ -315,6 +316,42 @@
 
   </div>
 
+  <!-- MODAL: EDITAR SALDO UYU DIRECTO -->
+  <div id="modal-editar-uyu" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+          <i data-lucide="pencil" class="w-4 h-4"></i> Editar Saldo en Pesos (UYU)
+        </h3>
+        <button onclick="cerrarModalEditarSaldoUYU()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <p class="text-xs text-slate-300">Corrige el monto total de tu saldo en UYU directamente sin generar movimientos:</p>
+      <input type="number" step="any" id="input-editar-uyu-valor" placeholder="Nuevo saldo UYU..." class="input-dark p-3 text-sm font-bold w-full text-center">
+      <div class="flex gap-2">
+        <button onclick="cerrarModalEditarSaldoUYU()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="guardarSaldoUYUEditado()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EDITAR SALDO USD DIRECTO -->
+  <div id="modal-editar-usd" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
+          <i data-lucide="pencil" class="w-4 h-4"></i> Editar Saldo PayPal (USD)
+        </h3>
+        <button onclick="cerrarModalEditarSaldoUSD()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <p class="text-xs text-slate-300">Corrige el monto total de tu saldo en USD directamente sin generar movimientos:</p>
+      <input type="number" step="any" id="input-editar-usd-valor" placeholder="Nuevo saldo USD..." class="input-dark p-3 text-sm font-bold w-full text-center">
+      <div class="flex gap-2">
+        <button onclick="cerrarModalEditarSaldoUSD()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="guardarSaldoUSDEditado()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg">Guardar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL ESTÉTICO: ELEGIR DESTINO DE COBRO PENDIENTE -->
   <div id="modal-eleccion-cobro" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-indigo-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
@@ -322,15 +359,9 @@
         <h3 class="text-xs font-bold text-indigo-300 flex items-center gap-2 uppercase tracking-wide">
           <i data-lucide="arrow-down-right" class="w-4 h-4 text-emerald-400"></i> Recibir Pago Pendiente
         </h3>
-        <button onclick="cerrarModalEleccionCobro()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
+        <button onclick="cerrarModalEleccionCobro()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
-
-      <p class="text-xs text-slate-200 text-center font-medium">
-        ¿En qué cuenta deseas ingresar este cobro?
-      </p>
-
+      <p class="text-xs text-slate-200 text-center font-medium">¿En qué cuenta deseas ingresar este cobro?</p>
       <div class="space-y-2">
         <button onclick="seleccionarMonedaCobroDestino('USD')" class="w-full p-3 rounded-xl bg-blue-500/25 hover:bg-blue-500/35 text-blue-200 border border-blue-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
           <i data-lucide="wallet" class="w-4 h-4"></i> Saldo USD (PayPal)
@@ -339,8 +370,7 @@
           <i data-lucide="coins" class="w-4 h-4"></i> Saldo UYU (Pesos)
         </button>
       </div>
-
-      <button onclick="cerrarModalEleccionCobro()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+      <button onclick="cerrarModalEleccionCobro()" class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
     </div>
   </div>
 
@@ -351,86 +381,62 @@
         <h3 class="text-xs font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wide">
           <i data-lucide="calculator" class="w-4 h-4"></i> Confirmar Monto Real
         </h3>
-        <button onclick="cerrarModalMontoReal()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
+        <button onclick="cerrarModalMontoReal()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
-
-      <p id="txt-detalles-monto-real" class="text-xs text-slate-200 text-center font-medium leading-relaxed">
-        El pago pendiente original era de $0 USD.
-      </p>
-
+      <p id="txt-detalles-monto-real" class="text-xs text-slate-200 text-center font-medium leading-relaxed">El pago pendiente original era de $0.</p>
       <div>
         <label id="lbl-input-monto-real" class="block text-[11px] text-slate-300 mb-1">Monto exacto recibido:</label>
         <input type="number" step="any" id="input-monto-real-valor" placeholder="Monto real..." class="input-dark p-3 text-sm font-bold w-full text-center">
       </div>
-
       <div class="flex gap-2">
-        <button onclick="cerrarModalMontoReal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarIngresoMontoRealFinal()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Aceptar</button>
+        <button onclick="cerrarModalMontoReal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="confirmarIngresoMontoRealFinal()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg">Aceptar</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: AJUSTAR COTIZACIÓN PAYPAL / DÓLAR -->
+  <!-- MODAL: AJUSTAR COTIZACIÓN -->
   <div id="modal-cotizacion" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4">
-      <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
-        <i data-lucide="edit-3" class="w-4 h-4"></i> Cotización Real PayPal (UYU/USD)
-      </h3>
-      <p class="text-[11px] text-slate-200">
-        Ingresa cuántos Pesos Uruguayos te paga PayPal por cada Dólar después de aplicar sus comisiones:
-      </p>
+      <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2"><i data-lucide="edit-3" class="w-4 h-4"></i> Cotización Real PayPal</h3>
+      <p class="text-[11px] text-slate-200">Ingresa cuántos Pesos Uruguayos te paga PayPal por cada Dólar tras comisiones:</p>
       <input type="number" step="any" id="input-cotizacion-manual" placeholder="Ej: 38.5" class="input-dark p-3 text-sm w-full text-center font-bold">
-      
       <div class="flex gap-2">
-        <button onclick="cerrarModalAjusteCotizacion()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="guardarCotizacionManual()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Guardar</button>
+        <button onclick="cerrarModalAjusteCotizacion()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="guardarCotizacionManual()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg">Guardar</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: INGRESAR DÓLARES (PAYPAL) -->
+  <!-- MODAL: INGRESAR DÓLARES -->
   <div id="modal-ingreso-usd" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4">
-      <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
-        <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dólares (USD)
-      </h3>
+      <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2"><i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dólares (USD)</h3>
       <input type="number" step="any" id="ingreso-usd-monto" placeholder="Monto en USD ($)" class="input-dark p-3 text-sm w-full">
       <input type="text" id="ingreso-usd-motivo" placeholder="Origen (Ej: PayPal, Cliente...)" class="input-dark p-3 text-sm w-full">
-      
       <div class="flex gap-2">
-        <button onclick="cerrarModalIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Añadir USD</button>
+        <button onclick="cerrarModalIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="confirmarIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg">Añadir</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL GLASS: REINICIAR CON CONTRASEÑA -->
+  <!-- MODAL REINICIAR -->
   <div id="modal-reset-clave" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-950/95 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center">
-        <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
-          <i data-lucide="alert-triangle" class="w-4 h-4"></i> Eliminar Billetera
-        </h3>
-        <button onclick="cerrarModalResetClave()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4"></i> Eliminar Billetera</h3>
+        <button onclick="cerrarModalResetClave()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <p class="text-xs text-slate-200 text-center font-medium">
-        Vas a eliminar todos los datos de tu billetera🦖 Y no hay vuelta atrás! .
-      </p>
-
+      <p class="text-xs text-slate-200 text-center font-medium">Vas a eliminar todos los datos de tu billetera.</p>
       <div>
-        <label class="block text-[11px] text-slate-300 mb-1">Ingresa la contraseña para continuar🐻:</label>
+        <label class="block text-[11px] text-slate-300 mb-1">Contraseña:</label>
         <input type="password" id="input-clave-reset" placeholder="Contraseña..." class="input-dark p-2.5 text-xs w-full">
-        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta🦖</p>
+        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta</p>
       </div>
-
       <div class="flex gap-2">
-        <button onclick="cerrarModalResetClave()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarResetClave()" class="w-1/2 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-xs shadow-lg shadow-rose-500/30 border border-rose-400/40">Aceptar</button>
+        <button onclick="cerrarModalResetClave()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="confirmarResetClave()" class="w-1/2 py-2.5 rounded-xl bg-rose-500 text-white font-bold text-xs shadow-lg">Aceptar</button>
       </div>
     </div>
   </div>
@@ -438,15 +444,12 @@
   <!-- MODAL: INGRESO DE DINERO (UYU) -->
   <div id="modal-ingreso" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-950/95 space-y-4">
-      <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
-        <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero (UYU)
-      </h3>
+      <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2"><i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero (UYU)</h3>
       <input type="number" step="any" id="ingreso-monto" placeholder="Monto a sumar ($)" class="input-dark p-3 text-sm w-full">
-      <input type="text" id="ingreso-motivo" placeholder="Origen (Ej: Sueldo, Venta...)" class="input-dark p-3 text-sm w-full">
-      
+      <input type="text" id="ingreso-motivo" placeholder="Origen (Ej: Sueldo...)" class="input-dark p-3 text-sm w-full">
       <div class="flex gap-2">
-        <button onclick="cerrarModalIngreso()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
-        <button onclick="confirmarIngreso()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Añadir</button>
+        <button onclick="cerrarModalIngreso()" class="w-1/2 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="confirmarIngreso()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg">Añadir</button>
       </div>
     </div>
   </div>
@@ -455,55 +458,35 @@
   <div id="modal-historial-ingresos" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-950/95 space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
-          <i data-lucide="history" class="w-4 h-4"></i> Historial de Ingresos
-        </h3>
-        <button onclick="cerrarModalHistorialIngresos()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Historial de Ingresos</h3>
+        <button onclick="cerrarModalHistorialIngresos()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <div id="lista-ingresos" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-1">
-        <!-- Ingresos cargados dinámicamente -->
-      </div>
-
-      <button onclick="cerrarModalHistorialIngresos()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
+      <div id="lista-ingresos" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-1"></div>
+      <button onclick="cerrarModalHistorialIngresos()" class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cerrar</button>
     </div>
   </div>
 
-  <!-- MODAL: OPCIONES DE ELIMINAR GASTO DE HISTORIAL -->
+  <!-- MODAL: ELIMINAR GASTO -->
   <div id="modal-eliminar-gasto" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-950/95 space-y-4">
       <div class="flex justify-between items-center">
-        <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
-          <i data-lucide="trash-2" class="w-4 h-4"></i> Opciones de Eliminación
-        </h3>
-        <button onclick="cerrarModalEliminarGasto()" class="text-slate-400 hover:text-white">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+        <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2"><i data-lucide="trash-2" class="w-4 h-4"></i> Opciones</h3>
+        <button onclick="cerrarModalEliminarGasto()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
-
-      <p class="text-xs text-slate-200 text-center">
-        ¿Qué deseas hacer con este movimiento registrado?
-      </p>
-
+      <p class="text-xs text-slate-200 text-center">¿Qué deseas hacer con este movimiento?</p>
       <div class="space-y-2">
-        <button onclick="procesarEliminarGasto(true)" class="w-full p-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
+        <button onclick="procesarEliminarGasto(true)" class="w-full p-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-left font-semibold text-xs flex flex-col gap-0.5">
           <span class="font-bold flex items-center gap-1"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Eliminar y sumar dinero (+<span id="monto-restaurar-txt">$0</span>)</span>
-          <span class="text-[10px] text-slate-300 font-normal">Suma el dinero de vuelta a tu billetera disponible.</span>
         </button>
-
-        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-600/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
-          <span class="font-bold flex items-center gap-1 text-slate-200"><i data-lucide="ghost" class="w-3.5 h-3.5 text-slate-400"></i> Marcar como eliminado (fantasma)</span>
-          <span class="text-[10px] text-slate-300 font-normal">Mantiene el monto descontado pero oculta el detalle.</span>
+        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-slate-800 text-slate-300 border border-slate-600/40 text-left font-semibold text-xs flex flex-col gap-0.5">
+          <span class="font-bold flex items-center gap-1 text-slate-200"><i data-lucide="ghost" class="w-3.5 h-3.5 text-slate-400"></i> Marcar como fantasma</span>
         </button>
       </div>
-
-      <button onclick="cerrarModalEliminarGasto()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+      <button onclick="cerrarModalEliminarGasto()" class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
     </div>
   </div>
 
-  <!-- MODAL: GRÁFICO DE TORTA -->
+  <!-- MODAL: GRÁFICO DE TORTA CORREGIDO -->
   <div id="modal-grafico" class="fixed inset-0 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-950/95 space-y-4">
       <div class="flex justify-between items-center">
@@ -526,7 +509,6 @@
   <script>
     lucide.createIcons();
 
-    // COTIZACIÓN DEL DÓLAR / PAYPAL PERSISTENTE
     let cotizacionDolar = parseFloat(localStorage.getItem('manu_cotizacion_usd')) || 38.5;
 
     async function obtenerCotizacionDolar() {
@@ -538,24 +520,21 @@
             cotizacionDolar = data.rates.UYU;
           }
         } catch (err) {
-          console.warn('Usando cotización de respaldo:', cotizacionDolar);
+          console.warn('Usando respaldo:', cotizacionDolar);
         }
       }
       render();
     }
 
-    // AJUSTE MANUAL DE COTIZACIÓN
     function abrirModalAjusteCotizacion() {
       document.getElementById('input-cotizacion-manual').value = cotizacionDolar;
       document.getElementById('modal-cotizacion').classList.remove('hidden');
       document.getElementById('modal-cotizacion').classList.add('flex');
     }
-
     function cerrarModalAjusteCotizacion() {
       document.getElementById('modal-cotizacion').classList.add('hidden');
       document.getElementById('modal-cotizacion').classList.remove('flex');
     }
-
     function guardarCotizacionManual() {
       const val = parseFloat(document.getElementById('input-cotizacion-manual').value);
       if (!isNaN(val) && val > 0) {
@@ -566,13 +545,48 @@
       }
     }
 
-    // TEMPORIZADOR DEL SPLASH SCREEN
+    // EDICIÓN DIRECTA DE SALDOS (SIN MOVIMIENTOS)
+    function abrirModalEditarSaldoUYU() {
+      document.getElementById('input-editar-uyu-valor').value = disponibleUYU;
+      document.getElementById('modal-editar-uyu').classList.remove('hidden');
+      document.getElementById('modal-editar-uyu').classList.add('flex');
+    }
+    function cerrarModalEditarSaldoUYU() {
+      document.getElementById('modal-editar-uyu').classList.add('hidden');
+      document.getElementById('modal-editar-uyu').classList.remove('flex');
+    }
+    function guardarSaldoUYUEditado() {
+      const val = parseFloat(document.getElementById('input-editar-uyu-valor').value);
+      if (!isNaN(val)) {
+        disponibleUYU = val;
+        cerrarModalEditarSaldoUYU();
+        guardar();
+      }
+    }
+
+    function abrirModalEditarSaldoUSD() {
+      document.getElementById('input-editar-usd-valor').value = disponibleUSD;
+      document.getElementById('modal-editar-usd').classList.remove('hidden');
+      document.getElementById('modal-editar-usd').classList.add('flex');
+    }
+    function cerrarModalEditarSaldoUSD() {
+      document.getElementById('modal-editar-usd').classList.add('hidden');
+      document.getElementById('modal-editar-usd').classList.remove('flex');
+    }
+    function guardarSaldoUSDEditado() {
+      const val = parseFloat(document.getElementById('input-editar-usd-valor').value);
+      if (!isNaN(val)) {
+        disponibleUSD = val;
+        cerrarModalEditarSaldoUSD();
+        guardar();
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       obtenerCotizacionDolar();
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         const appContent = document.getElementById('app-content');
-        
         splash.classList.add('fade-out');
         setTimeout(() => {
           splash.style.display = 'none';
@@ -582,60 +596,30 @@
       }, 1800);
     });
 
-    // SINTETIZADOR DE EFECTOS DE SONIDO (WEB AUDIO API)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
     function reproducirSonidoIngreso() {
       if (audioCtx.state === 'suspended') audioCtx.resume();
       const osc1 = audioCtx.createOscillator();
-      const osc2 = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-
-      osc1.type = 'sine';
-      osc2.type = 'triangle';
-
-      const now = audioCtx.currentTime;
-      osc1.frequency.setValueAtTime(523.25, now);
-      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.15);
-
-      osc2.frequency.setValueAtTime(659.25, now);
-      osc2.frequency.exponentialRampToValueAtTime(1046.50, now + 0.15);
-
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-
+      osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
       osc1.connect(gain);
-      osc2.connect(gain);
       gain.connect(audioCtx.destination);
-
-      osc1.start(now);
-      osc2.start(now);
-      osc1.stop(now + 0.25);
-      osc2.stop(now + 0.25);
+      osc1.start();
+      osc1.stop(audioCtx.currentTime + 0.2);
     }
-
     function reproducirSonidoGasto() {
       if (audioCtx.state === 'suspended') audioCtx.resume();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-
-      osc.type = 'sine';
-      const now = audioCtx.currentTime;
-
-      osc.frequency.setValueAtTime(400, now);
-      osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
-
-      gain.gain.setValueAtTime(0.2, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
-
+      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
-
-      osc.start(now);
-      osc.stop(now + 0.15);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.15);
     }
 
-    // ESTADO CON PERSISTENCIA LOCALSTORAGE
     let disponibleUYU = parseFloat(localStorage.getItem('manu_disponible')) || 0;
     let disponibleUSD = parseFloat(localStorage.getItem('manu_disponible_usd')) || 0;
     let gastos = JSON.parse(localStorage.getItem('manu_gastos')) || [];
@@ -646,8 +630,6 @@
     let categoriaSeleccionada = 'SUPERMERCADO';
     let chartInstance = null;
     let gastoSeleccionadoId = null;
-
-    // ESTADO DE COBRO PENDIENTE EN PROCESO
     let pendienteActivo = null;
     let monedaDestinoSeleccionada = 'USD';
 
@@ -658,8 +640,7 @@
       const mesAnio = ahora.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
       return {
         full: `${fecha} - ${hora}`,
-        mesAnio: mesAnio.charAt(0).toUpperCase() + mesAnio.slice(1),
-        timestamp: ahora.getTime()
+        mesAnio: mesAnio.charAt(0).toUpperCase() + mesAnio.slice(1)
       };
     }
 
@@ -679,28 +660,19 @@
       render();
     }
 
-    // MODAL DE REINICIAR CON CONTRASEÑA
     function abrirModalResetClave() {
       document.getElementById('input-clave-reset').value = '';
       document.getElementById('error-clave-txt').classList.add('hidden');
       document.getElementById('modal-reset-clave').classList.remove('hidden');
       document.getElementById('modal-reset-clave').classList.add('flex');
     }
-
     function cerrarModalResetClave() {
       document.getElementById('modal-reset-clave').classList.add('hidden');
       document.getElementById('modal-reset-clave').classList.remove('flex');
     }
-
     function confirmarResetClave() {
-      const clave = document.getElementById('input-clave-reset').value;
-      if (clave === "kylian") {
-        disponibleUYU = 0;
-        disponibleUSD = 0;
-        gastos = [];
-        ingresos = [];
-        pendientes = [];
-        reservas = [];
+      if (document.getElementById('input-clave-reset').value === "kylian") {
+        disponibleUYU = 0; disponibleUSD = 0; gastos = []; ingresos = []; pendientes = []; reservas = [];
         cerrarModalResetClave();
         guardar();
       } else {
@@ -708,7 +680,6 @@
       }
     }
 
-    // DESPLEGAR / OCULTAR SECCIONES
     function toggleSeccion(idContenedor, idIcono) {
       const el = document.getElementById(idContenedor);
       const icon = document.getElementById(idIcono);
@@ -721,12 +692,10 @@
       }
     }
 
-    // SELECCIÓN DE CATEGORÍA
     function seleccionarCategoria(cat) {
       categoriaSeleccionada = cat;
-      const botones = document.querySelectorAll('#contenedor-categorias .cat-btn');
-      botones.forEach(btn => {
-        if (btn.textContent.includes(cat.toLowerCase()) || btn.textContent.toUpperCase().includes(cat)) {
+      document.querySelectorAll('#contenedor-categorias .cat-btn').forEach(btn => {
+        if (btn.textContent.toUpperCase().includes(cat)) {
           btn.classList.add('active');
         } else {
           btn.classList.remove('active');
@@ -734,7 +703,6 @@
       });
     }
 
-    // MODAL DÓLARES (PAYPAL)
     function abrirModalIngresoUSD() {
       document.getElementById('modal-ingreso-usd').classList.remove('hidden');
       document.getElementById('modal-ingreso-usd').classList.add('flex');
@@ -745,20 +713,9 @@
     }
     function confirmarIngresoUSD() {
       const monto = parseFloat(document.getElementById('ingreso-usd-monto').value);
-      const motivo = document.getElementById('ingreso-usd-motivo').value.trim() || 'Ingreso PayPal / USD';
-
       if (isNaN(monto) || monto <= 0) return;
-
       disponibleUSD += monto;
-      const fh = getFechaHora();
-      ingresos.unshift({
-        id: Date.now(),
-        monto,
-        moneda: 'USD',
-        motivo,
-        fechaHora: fh.full
-      });
-
+      ingresos.unshift({ id: Date.now(), monto, moneda: 'USD', motivo: 'Ingreso PayPal / USD', fechaHora: getFechaHora().full });
       document.getElementById('ingreso-usd-monto').value = '';
       document.getElementById('ingreso-usd-motivo').value = '';
       cerrarModalIngresoUSD();
@@ -766,7 +723,6 @@
       guardar();
     }
 
-    // MODAL E HISTORIAL DE INGRESOS
     function abrirModalIngreso() {
       document.getElementById('modal-ingreso').classList.remove('hidden');
       document.getElementById('modal-ingreso').classList.add('flex');
@@ -775,23 +731,12 @@
       document.getElementById('modal-ingreso').classList.add('hidden');
       document.getElementById('modal-ingreso').classList.remove('flex');
     }
-    
     function confirmarIngreso() {
       const monto = parseFloat(document.getElementById('ingreso-monto').value);
       const motivo = document.getElementById('ingreso-motivo').value.trim() || 'Ingreso manual';
-
       if (isNaN(monto) || monto <= 0) return;
-
       disponibleUYU += monto;
-      const fh = getFechaHora();
-      ingresos.unshift({
-        id: Date.now(),
-        monto,
-        moneda: 'UYU',
-        motivo,
-        fechaHora: fh.full
-      });
-
+      ingresos.unshift({ id: Date.now(), monto, moneda: 'UYU', motivo, fechaHora: getFechaHora().full });
       document.getElementById('ingreso-monto').value = '';
       document.getElementById('ingreso-motivo').value = '';
       cerrarModalIngreso();
@@ -808,11 +753,10 @@
       document.getElementById('modal-historial-ingresos').classList.add('hidden');
       document.getElementById('modal-historial-ingresos').classList.remove('flex');
     }
-
     function renderIngresos() {
       const container = document.getElementById('lista-ingresos');
       if (ingresos.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-3">No hay ingresos registrados aún</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-3">Sin ingresos registrados</p>`;
         return;
       }
       container.innerHTML = ingresos.map(ing => `
@@ -826,87 +770,60 @@
       `).join('');
     }
 
-    // REGISTRAR GASTO MULTIMONEDA
     document.getElementById('form-gasto').addEventListener('submit', (e) => {
       e.preventDefault();
       const monto = parseFloat(document.getElementById('gasto-monto').value);
       const moneda = document.getElementById('gasto-moneda').value;
       const detalle = document.getElementById('gasto-detalle').value.trim();
-
       if (isNaN(monto) || monto <= 0) return;
 
-      if (moneda === 'USD') {
-        disponibleUSD -= monto;
-      } else {
-        disponibleUYU -= monto;
-      }
+      if (moneda === 'USD') disponibleUSD -= monto;
+      else disponibleUYU -= monto;
 
       const fh = getFechaHora();
-      gastos.unshift({
-        id: Date.now(),
-        monto,
-        moneda,
-        categoria: categoriaSeleccionada,
-        detalle: detalle || categoriaSeleccionada,
-        fechaHora: fh.full,
-        mesAnio: fh.mesAnio,
-        tachado: false
-      });
-
+      gastos.unshift({ id: Date.now(), monto, moneda, categoria: categoriaSeleccionada, detalle: detalle || categoriaSeleccionada, fechaHora: fh.full, mesAnio: fh.mesAnio, tachado: false });
       document.getElementById('gasto-monto').value = '';
       document.getElementById('gasto-detalle').value = '';
       reproducirSonidoGasto();
       guardar();
     });
 
-    // OPCIONES DE ELIMINACIÓN DE GASTOS
     function abrirOpcionesEliminarGasto(id) {
       gastoSeleccionadoId = id;
       const g = gastos.find(item => item.id === id);
       if (!g) return;
-
       document.getElementById('monto-restaurar-txt').textContent = formatMoney(g.monto, g.moneda || 'UYU');
       document.getElementById('modal-eliminar-gasto').classList.remove('hidden');
       document.getElementById('modal-eliminar-gasto').classList.add('flex');
     }
-
     function cerrarModalEliminarGasto() {
       gastoSeleccionadoId = null;
       document.getElementById('modal-eliminar-gasto').classList.add('hidden');
       document.getElementById('modal-eliminar-gasto').classList.remove('flex');
     }
-
     function procesarEliminarGasto(sumarDinero) {
       if (!gastoSeleccionadoId) return;
-
       const gIndex = gastos.findIndex(item => item.id === gastoSeleccionadoId);
       if (gIndex !== -1) {
         if (sumarDinero) {
-          if (gastos[gIndex].moneda === 'USD') {
-            disponibleUSD += gastos[gIndex].monto;
-          } else {
-            disponibleUYU += gastos[gIndex].monto;
-          }
+          if (gastos[gIndex].moneda === 'USD') disponibleUSD += gastos[gIndex].monto;
+          else disponibleUYU += gastos[gIndex].monto;
           gastos.splice(gIndex, 1);
           reproducirSonidoIngreso();
         } else {
           gastos[gIndex].tachado = true;
         }
       }
-
       cerrarModalEliminarGasto();
       guardar();
     }
 
-    // PENDIENTES CON MODALES ESTÉTICOS GLASS
     document.getElementById('form-pendiente').addEventListener('submit', (e) => {
       e.preventDefault();
       const persona = document.getElementById('pend-persona').value.trim();
       const monto = parseFloat(document.getElementById('pend-monto').value);
       const moneda = document.getElementById('pend-moneda').value;
-
       if (!persona || isNaN(monto) || monto <= 0) return;
-
       pendientes.push({ id: Date.now(), persona, monto, moneda });
       document.getElementById('pend-persona').value = '';
       document.getElementById('pend-monto').value = '';
@@ -914,112 +831,75 @@
     });
 
     function recibirPendiente(id) {
-      const item = pendientes.find(p => p.id === id);
-      if (!item) return;
-
-      pendienteActivo = item;
+      pendienteActivo = pendientes.find(p => p.id === id);
+      if (!pendienteActivo) return;
       document.getElementById('modal-eleccion-cobro').classList.remove('hidden');
       document.getElementById('modal-eleccion-cobro').classList.add('flex');
     }
-
     function cerrarModalEleccionCobro() {
       document.getElementById('modal-eleccion-cobro').classList.add('hidden');
       document.getElementById('modal-eleccion-cobro').classList.remove('flex');
     }
-
     function seleccionarMonedaCobroDestino(moneda) {
       monedaDestinoSeleccionada = moneda;
       cerrarModalEleccionCobro();
-
       if (!pendienteActivo) return;
-
-      const txtDetalles = document.getElementById('txt-detalles-monto-real');
-      const lblInput = document.getElementById('lbl-input-monto-real');
-      const inputValor = document.getElementById('input-monto-real-valor');
-
+      const txt = document.getElementById('txt-detalles-monto-real');
+      const lbl = document.getElementById('lbl-input-monto-real');
+      const input = document.getElementById('input-monto-real-valor');
       if (monedaDestinoSeleccionada === 'USD') {
-        let sugerido = pendienteActivo.monto;
-        if (pendienteActivo.moneda === 'UYU') {
-          sugerido = (pendienteActivo.monto / cotizacionDolar).toFixed(2);
-        }
-        txtDetalles.innerHTML = `El pago de <strong>${pendienteActivo.persona}</strong> era de <strong>${formatMoney(pendienteActivo.monto, pendienteActivo.moneda)}</strong>.`;
-        lblInput.textContent = "Dólares reales ingresados a PayPal:";
-        inputValor.value = sugerido;
+        let sugerido = pendienteActivo.moneda === 'UYU' ? (pendienteActivo.monto / cotizacionDolar).toFixed(2) : pendienteActivo.monto;
+        txt.innerHTML = `El pago de <strong>${pendienteActivo.persona}</strong> era de <strong>${formatMoney(pendienteActivo.monto, pendienteActivo.moneda)}</strong>.`;
+        lbl.textContent = "Dólares reales ingresados a PayPal:";
+        input.value = sugerido;
       } else {
-        let sugerido = pendienteActivo.monto;
-        if (pendienteActivo.moneda === 'USD') {
-          sugerido = (pendienteActivo.monto * cotizacionDolar).toFixed(2);
-        }
-        txtDetalles.innerHTML = `El pago de <strong>${pendienteActivo.persona}</strong> era de <strong>${formatMoney(pendienteActivo.monto, pendienteActivo.moneda)}</strong>.`;
-        lblInput.textContent = "Pesos Uruguayos reales recibidos tras comisiones:";
-        inputValor.value = sugerido;
+        let sugerido = pendienteActivo.moneda === 'USD' ? (pendienteActivo.monto * cotizacionDolar).toFixed(2) : pendienteActivo.monto;
+        txt.innerHTML = `El pago de <strong>${pendienteActivo.persona}</strong> era de <strong>${formatMoney(pendienteActivo.monto, pendienteActivo.moneda)}</strong>.`;
+        lbl.textContent = "Pesos Uruguayos reales recibidos:";
+        input.value = sugerido;
       }
-
       document.getElementById('modal-confirmar-monto-real').classList.remove('hidden');
       document.getElementById('modal-confirmar-monto-real').classList.add('flex');
     }
-
     function cerrarModalMontoReal() {
       document.getElementById('modal-confirmar-monto-real').classList.add('hidden');
       document.getElementById('modal-confirmar-monto-real').classList.remove('flex');
       pendienteActivo = null;
     }
-
     function confirmarIngresoMontoRealFinal() {
       if (!pendienteActivo) return;
-
       const val = parseFloat(document.getElementById('input-monto-real-valor').value);
       if (isNaN(val) || val <= 0) return;
-
       if (monedaDestinoSeleccionada === 'USD') {
         disponibleUSD += val;
-        ingresos.unshift({
-          id: Date.now(),
-          monto: val,
-          moneda: 'USD',
-          motivo: `Pago pendiente de: ${pendienteActivo.persona}`,
-          fechaHora: getFechaHora().full
-        });
+        ingresos.unshift({ id: Date.now(), monto: val, moneda: 'USD', motivo: `Pago pendiente: ${pendienteActivo.persona}`, fechaHora: getFechaHora().full });
       } else {
         disponibleUYU += val;
-        ingresos.unshift({
-          id: Date.now(),
-          monto: val,
-          moneda: 'UYU',
-          motivo: `Pago pendiente de: ${pendienteActivo.persona}`,
-          fechaHora: getFechaHora().full
-        });
+        ingresos.unshift({ id: Date.now(), monto: val, moneda: 'UYU', motivo: `Pago pendiente: ${pendienteActivo.persona}`, fechaHora: getFechaHora().full });
       }
-
       pendientes = pendientes.filter(p => p.id !== pendienteActivo.id);
       cerrarModalMontoReal();
       reproducirSonidoIngreso();
       guardar();
     }
 
-    // RESERVAS
     document.getElementById('form-reserva').addEventListener('submit', (e) => {
       e.preventDefault();
       const motivo = document.getElementById('reserva-motivo').value.trim();
       const monto = parseFloat(document.getElementById('reserva-monto').value);
-
       if (!motivo || isNaN(monto) || monto <= 0) return;
-
       reservas.push({ id: Date.now(), motivo, monto });
       document.getElementById('reserva-motivo').value = '';
       document.getElementById('reserva-monto').value = '';
       reproducirSonidoGasto();
       guardar();
     });
-
     function eliminarReserva(id) {
       reservas = reservas.filter(r => r.id !== id);
       guardar();
     }
 
-    // RENDERIZADO GENERAL Y SEPARACIÓN POR MES
     function render() {
-      // Cálculo de equivalente UYU para saldo USD
       const usdEnUYU = disponibleUSD * cotizacionDolar;
       const disponibleTotalUYU = disponibleUYU + usdEnUYU;
 
@@ -1029,14 +909,12 @@
       document.getElementById('total-disponible').textContent = formatMoney(disponibleTotalUYU, 'UYU');
       document.getElementById('desglose-saldo-txt').textContent = `(${formatMoney(disponibleUYU, 'UYU')} en Pesos + ${formatMoney(usdEnUYU, 'UYU')} de PayPal)`;
 
-      // Render Historial de Gastos con Separadores por Mes
       const listaGastosEl = document.getElementById('sec-historial');
       if (gastos.length === 0) {
         listaGastosEl.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-2">Sin gastos registrados</p>`;
       } else {
         let htmlGastos = '';
         let ultimoMes = '';
-
         gastos.forEach(g => {
           const mesActual = g.mesAnio || 'General';
           if (mesActual !== ultimoMes) {
@@ -1049,31 +927,19 @@
             `;
             ultimoMes = mesActual;
           }
-
           const esTachado = g.tachado === true;
-
           htmlGastos += `
             <div class="flex justify-between items-center p-2.5 rounded-xl ${esTachado ? 'bg-slate-900/30 opacity-50 border-slate-700/30' : 'bg-slate-900/90 border-white/15'} border backdrop-blur-md text-xs transition-all shadow-md">
               <div>
                 <div class="flex items-center gap-1.5">
-                  <span class="font-bold ${esTachado ? 'line-through text-slate-400' : 'text-slate-100'}">
-                    ${esTachado ? 'Movimiento eliminado' : g.detalle}
-                  </span>
-                  ${esTachado ? `
-                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700 font-semibold">Eliminado</span>
-                  ` : `
-                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-white/15 font-semibold">${g.categoria}</span>
-                  `}
+                  <span class="font-bold ${esTachado ? 'line-through text-slate-400' : 'text-slate-100'}">${esTachado ? 'Movimiento eliminado' : g.detalle}</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-200 border border-white/15 font-semibold">${g.categoria}</span>
                 </div>
                 <p class="text-[10px] text-slate-300 mt-0.5">${g.fechaHora}</p>
               </div>
               <div class="flex items-center gap-2">
                 <span class="font-black ${esTachado ? 'line-through text-slate-500' : 'text-rose-400'}">-${formatMoney(g.monto, g.moneda || 'UYU')}</span>
-                ${!esTachado ? `
-                  <button onclick="abrirOpcionesEliminarGasto(${g.id})" title="Eliminar opción" class="text-slate-300 hover:text-rose-400 transition-colors p-1 rounded-lg hover:bg-slate-800">
-                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                  </button>
-                ` : ''}
+                ${!esTachado ? `<button onclick="abrirOpcionesEliminarGasto(${g.id})" class="text-slate-300 hover:text-rose-400 p-1 rounded-lg hover:bg-slate-800"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>` : ''}
               </div>
             </div>
           `;
@@ -1081,7 +947,6 @@
         listaGastosEl.innerHTML = htmlGastos;
       }
 
-      // Render Pendientes
       const listaPendEl = document.getElementById('lista-pendientes');
       if (pendientes.length === 0) {
         listaPendEl.innerHTML = `<p class="text-xs text-slate-300 italic text-center py-2">Sin cobros pendientes</p>`;
@@ -1092,14 +957,13 @@
               <p class="font-bold text-slate-100">${p.persona}</p>
               <p class="text-[10px] text-indigo-300 font-bold">${formatMoney(p.monto, p.moneda || 'UYU')} pendientes</p>
             </div>
-            <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/30 hover:bg-emerald-500/40 text-emerald-200 border border-emerald-400/40 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 active:scale-95 shadow-sm">
+            <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/30 hover:bg-emerald-500/40 text-emerald-200 border border-emerald-400/40 px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 active:scale-95 shadow-sm">
               <i data-lucide="check" class="w-3 h-3"></i> Recibido
             </button>
           </div>
         `).join('');
       }
 
-      // Render Reservas
       const totalReservado = reservas.reduce((acc, r) => acc + r.monto, 0);
       const restanteReal = disponibleTotalUYU - totalReservado;
       document.getElementById('reserva-restante-preview').textContent = formatMoney(restanteReal, 'UYU');
@@ -1114,9 +978,7 @@
               <p class="font-bold text-slate-100">${r.motivo}</p>
               <p class="text-[10px] text-amber-300 font-bold">Reservado: ${formatMoney(r.monto, 'UYU')}</p>
             </div>
-            <button onclick="eliminarReserva(${r.id})" class="text-slate-300 hover:text-rose-400 transition-colors p-1">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
+            <button onclick="eliminarReserva(${r.id})" class="text-slate-300 hover:text-rose-400 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
           </div>
         `).join('');
       }
@@ -1124,11 +986,13 @@
       lucide.createIcons();
     }
 
-    // MODAL GRÁFICO DE TORTA
+    // GRÁFICO DE TORTA CORREGIDO (CON RETARDO PARA EVITAR 0X0)
     function abrirModalGrafico() {
       document.getElementById('modal-grafico').classList.remove('hidden');
       document.getElementById('modal-grafico').classList.add('flex');
-      renderChart();
+      setTimeout(() => {
+        renderChart();
+      }, 150);
     }
     function cerrarModalGrafico() {
       document.getElementById('modal-grafico').classList.add('hidden');
@@ -1139,12 +1003,13 @@
       const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES', 'OTROS'];
       const totales = categorias.map(cat => {
         return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => {
-          const montoEnUYU = g.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto;
-          return acc + montoEnUYU;
+          return acc + (curr.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto);
         }, 0);
       });
 
-      const ctx = document.getElementById('chart-torta').getContext('2d');
+      const canvas = document.getElementById('chart-torta');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
       if (chartInstance) chartInstance.destroy();
 
       chartInstance = new Chart(ctx, {
