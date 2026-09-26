@@ -106,7 +106,7 @@
         </div>
       </div>
       <!-- Tachito de Basura con Clave -->
-      <button onclick="reiniciarConClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/40 rounded-xl border border-rose-500/20 active:scale-95">
+      <button onclick="abrirModalResetClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/40 rounded-xl border border-rose-500/20 active:scale-95">
         <i data-lucide="trash-2" class="w-5 h-5"></i>
       </button>
     </header>
@@ -139,7 +139,7 @@
         </div>
 
         <div>
-          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
+          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
           <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
             <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
               🛒 Supermercado
@@ -230,7 +230,7 @@
 
         <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
           <p class="text-[11px] text-slate-200">
-            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
+            Si mantienes estas reservas, tu dinero disponible será de: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> Kylianos.
           </p>
         </div>
 
@@ -240,6 +240,35 @@
       </div>
     </section>
 
+  </div>
+
+  <!-- MODAL GLASS: REINICIAR CON CONTRASEÑA -->
+  <div id="modal-reset-clave" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+          <i data-lucide="alert-triangle" class="w-4 h-4"></i> Eliminar Billetera
+        </h3>
+        <button onclick="cerrarModalResetClave()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-200 text-center font-medium">
+        Vas a eliminar todo los datos de tu billetera Kyliana.
+      </p>
+
+      <div>
+        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar:</label>
+        <input type="password" id="input-clave-reset" placeholder="Contraseña..." class="input-dark p-2.5 text-xs w-full">
+        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta</p>
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="cerrarModalResetClave()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarResetClave()" class="w-1/2 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs shadow-lg shadow-rose-500/30 border border-rose-400/40">Aceptar</button>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: INGRESO DE DINERO -->
@@ -300,9 +329,9 @@
           <span class="text-[10px] text-slate-400 font-normal">Suma el dinero devuelta a tu billetera disponible.</span>
         </button>
 
-        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
-          <span class="font-bold flex items-center gap-1"><i data-lucide="ban" class="w-3.5 h-3.5"></i> Dejar tachado sin sumar dinero</span>
-          <span class="text-[10px] text-slate-400 font-normal">Mantiene el descuento en billetera pero tacha el gasto.</span>
+        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-600/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
+          <span class="font-bold flex items-center gap-1 text-slate-200"><i data-lucide="ghost" class="w-3.5 h-3.5 text-slate-400"></i> Marcar como eliminado (movimiento fantasma)</span>
+          <span class="text-[10px] text-slate-400 font-normal">Mantiene el monto descontado pero oculta el detalle y muestra solo "Movimiento eliminado".</span>
         </button>
       </div>
 
@@ -332,6 +361,59 @@
 
   <script>
     lucide.createIcons();
+
+    // SINTETIZADOR DE EFECTOS DE SONIDO (WEB AUDIO API)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function reproducirSonidoIngreso() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc1.type = 'sine';
+      osc2.type = 'triangle';
+
+      const now = audioCtx.currentTime;
+      osc1.frequency.setValueAtTime(523.25, now); // Nota C5
+      osc1.frequency.exponentialRampToValueAtTime(880, now + 0.15); // Sube a A5
+
+      osc2.frequency.setValueAtTime(659.25, now); // Nota E5
+      osc2.frequency.exponentialRampToValueAtTime(1046.50, now + 0.15); // Sube a C6
+
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+      osc1.connect(gain);
+      osc2.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 0.25);
+      osc2.stop(now + 0.25);
+    }
+
+    function reproducirSonidoGasto() {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'sine';
+      const now = audioCtx.currentTime;
+
+      osc.frequency.setValueAtTime(400, now);
+      osc.frequency.exponentialRampToValueAtTime(180, now + 0.12);
+
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.15);
+    }
 
     // ESTADO CON PERSISTENCIA LOCALSTORAGE
     let disponible = parseFloat(localStorage.getItem('manu_disponible')) || 0;
@@ -369,21 +451,31 @@
       render();
     }
 
-    // REINICIAR APP CON CLAVE
-    function reiniciarConClave() {
-      const clave = prompt("Vas a eliminar todo los datos de tu billetera.\n\nIngresa la contraseña para continuar:");
-      if (clave === null) return; // Cancelado
+    // MODAL DE REINICIAR CON CONTRASEÑA
+    function abrirModalResetClave() {
+      document.getElementById('input-clave-reset').value = '';
+      document.getElementById('error-clave-txt').classList.add('hidden');
+      document.getElementById('modal-reset-clave').classList.remove('hidden');
+      document.getElementById('modal-reset-clave').classList.add('flex');
+    }
 
+    function cerrarModalResetClave() {
+      document.getElementById('modal-reset-clave').classList.add('hidden');
+      document.getElementById('modal-reset-clave').classList.remove('flex');
+    }
+
+    function confirmarResetClave() {
+      const clave = document.getElementById('input-clave-reset').value;
       if (clave === "kylian") {
         disponible = 0;
         gastos = [];
         ingresos = [];
         pendientes = [];
         reservas = [];
+        cerrarModalResetClave();
         guardar();
-        alert("Billetera reiniciada con éxito.");
       } else {
-        alert("Contraseña incorrecta. No se borró ningún dato.");
+        document.getElementById('error-clave-txt').classList.remove('hidden');
       }
     }
 
@@ -441,6 +533,7 @@
       document.getElementById('ingreso-monto').value = '';
       document.getElementById('ingreso-motivo').value = '';
       cerrarModalIngreso();
+      reproducirSonidoIngreso(); // Sonido al ingresar dinero
       guardar();
     }
 
@@ -493,6 +586,7 @@
 
       document.getElementById('gasto-monto').value = '';
       document.getElementById('gasto-detalle').value = '';
+      reproducirSonidoGasto(); // Sonido al registrar un gasto
       guardar();
     });
 
@@ -522,8 +616,9 @@
           // Devuelve el dinero a la billetera y borra el elemento del todo
           disponible += gastos[gIndex].monto;
           gastos.splice(gIndex, 1);
+          reproducirSonidoIngreso(); // Sonido al restaurar dinero
         } else {
-          // No devuelve el dinero y lo deja como tachado/cancelado
+          // No devuelve el dinero y lo deja como movimiento fantasma tachado
           gastos[gIndex].tachado = true;
         }
       }
@@ -560,6 +655,7 @@
       });
 
       pendientes = pendientes.filter(p => p.id !== id);
+      reproducirSonidoIngreso(); // Sonido al recibir cobro pendiente
       guardar();
     }
 
@@ -574,6 +670,7 @@
       reservas.push({ id: Date.now(), motivo, monto });
       document.getElementById('reserva-motivo').value = '';
       document.getElementById('reserva-monto').value = '';
+      reproducirSonidoGasto(); // Sonido al reservar dinero
       guardar();
     });
 
@@ -610,12 +707,17 @@
           const esTachado = g.tachado === true;
 
           htmlGastos += `
-            <div class="flex justify-between items-center p-2.5 rounded-xl ${esTachado ? 'bg-slate-950/20 opacity-60 border-rose-500/20' : 'bg-slate-950/40 border-white/10'} border backdrop-blur-md text-xs transition-all">
+            <div class="flex justify-between items-center p-2.5 rounded-xl ${esTachado ? 'bg-slate-950/20 opacity-50 border-slate-700/30' : 'bg-slate-950/40 border-white/10'} border backdrop-blur-md text-xs transition-all">
               <div>
                 <div class="flex items-center gap-1.5">
-                  <span class="font-bold ${esTachado ? 'line-through text-slate-400' : 'text-slate-100'}">${g.detalle}</span>
-                  <span class="text-[9px] px-1.5 py-0.5 rounded ${esTachado ? 'bg-rose-950/40 text-rose-300 border-rose-500/20' : 'bg-slate-800/80 text-slate-300 border-white/10'} border font-semibold">${g.categoria}</span>
-                  ${esTachado ? `<span class="text-[9px] text-rose-400 font-bold ml-1">(Cancelado)</span>` : ''}
+                  <span class="font-bold ${esTachado ? 'line-through text-slate-400' : 'text-slate-100'}">
+                    ${esTachado ? 'Movimiento eliminado' : g.detalle}
+                  </span>
+                  ${esTachado ? `
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/60 text-slate-400 border border-slate-700 font-semibold">Eliminado</span>
+                  ` : `
+                    <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-white/10 font-semibold">${g.categoria}</span>
+                  `}
                 </div>
                 <p class="text-[10px] text-slate-400 mt-0.5">${g.fechaHora}</p>
               </div>
