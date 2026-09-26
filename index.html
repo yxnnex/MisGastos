@@ -89,12 +89,36 @@
       font-weight: 700;
       box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
     }
+
+    /* Animación de desvanecimiento para el Splash Screen */
+    .fade-out {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease-out;
+    }
   </style>
 </head>
 <body class="sm:py-6">
 
-  <div class="mobile-container flex flex-col justify-between p-4 relative pb-10">
+  <div class="mobile-container flex flex-col justify-between p-4 relative pb-10 overflow-hidden">
     
+    <!-- PANTALLA DE CARGA / SPLASH SCREEN (ESTILO APP MERCADO LIBRE) -->
+    <div id="splash-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center bg-slate-950/80 backdrop-blur-xl transition-all">
+      <div class="card-glass p-8 flex flex-col items-center gap-4 border-blue-500/30 bg-slate-900/80 shadow-2xl animate-bounce-short">
+        <img src="kylian.png" alt="Logo" class="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]" onerror="this.style.display='none'">
+        <div>
+          <h2 class="text-2xl font-black text-white tracking-wide flex items-center justify-center gap-1.5 drop-shadow">
+            ✨ ¡Hola Manu! ✨
+          </h2>
+          <p class="text-xs text-blue-400 font-bold tracking-wider uppercase mt-1">Control de Finanzas M&K</p>
+        </div>
+        <div class="flex items-center gap-2 mt-2 text-slate-400 text-xs">
+          <i data-lucide="loader" class="w-4 h-4 animate-spin text-blue-400"></i>
+          <span>Cargando tu billetera...</span>
+        </div>
+      </div>
+    </div>
+
     <!-- HEADER CON LOGO Y TACHITO DE BASURA -->
     <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
@@ -110,18 +134,6 @@
         <i data-lucide="trash-2" class="w-5 h-5"></i>
       </button>
     </header>
-
-    <!-- TARJETA PESTAÑA DE BIENVENIDA (OCUPANDO ESPACIO PARA APRECIAR EL FONDO) -->
-    <section class="card-glass p-5 mb-4 border-blue-500/30 bg-gradient-to-r from-blue-900/30 via-slate-900/40 to-slate-900/70 text-center relative overflow-hidden">
-      <div class="flex items-center justify-center gap-2 mb-1">
-        <span class="text-xl">✨</span>
-        <h2 class="text-lg font-black text-white tracking-wide drop-shadow">¡Hola Manu!</h2>
-        <span class="text-xl">✨</span>
-      </div>
-      <p class="text-xs text-slate-300 font-medium leading-relaxed drop-shadow">
-        Toca las pestañas de abajo para desplegar las herramientas de tu billetera cuando las necesites.
-      </p>
-    </section>
 
     <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE -->
     <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
@@ -247,7 +259,7 @@
 
         <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
           <p class="text-[11px] text-slate-200">
-            Si mantienes estas reservas, tu dinero disponible será de: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> Kylianos.
+            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> Kylianos.
           </p>
         </div>
 
@@ -276,9 +288,9 @@
       </p>
 
       <div>
-        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar🐻:</label>
+        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar:</label>
         <input type="password" id="input-clave-reset" placeholder="Contraseña..." class="input-dark p-2.5 text-xs w-full">
-        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta🦖</p>
+        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta</p>
       </div>
 
       <div class="flex gap-2">
@@ -378,6 +390,17 @@
 
   <script>
     lucide.createIcons();
+
+    // TEMPORIZADOR DEL SPLASH SCREEN (Efecto de Carga estilo App)
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.classList.add('fade-out');
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 800);
+      }, 1800);
+    });
 
     // SINTETIZADOR DE EFECTOS DE SONIDO (WEB AUDIO API)
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
