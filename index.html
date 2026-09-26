@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Finanzas - Manu</title>
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js para el gráfico de torta -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .mobile-container {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #1e293b;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+    .card-glass {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+    }
+    .input-dark {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      border-radius: 12px;
+    }
+    .input-dark:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="sm:py-6">
+
+  <div class="mobile-container flex flex-col justify-between p-4 relative pb-10">
+    
+    <!-- HEADER -->
+    <header class="flex justify-between items-center mb-5 pt-2">
+      <div>
+        <h1 class="text-xl font-black text-white tracking-wide">Control de Finanzas</h1>
+        <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">Manu</p>
+      </div>
+      <button onclick="reiniciarApp()" class="p-2 text-slate-400 hover:text-rose-400 transition-colors">
+        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+      </button>
+    </header>
+
+    <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE -->
+    <section class="card-glass p-5 mb-5 text-center relative overflow-hidden border-blue-500/30 bg-gradient-to-br from-slate-800 to-slate-900">
+      <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Dinero Disponible</span>
+      <h2 id="total-disponible" class="text-3xl font-black text-emerald-400 my-1">$0,00</h2>
+      
+      <div class="mt-3 flex justify-center">
+        <button onclick="abrirModalIngreso()" class="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-95">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar Dinero
+        </button>
+      </div>
+    </section>
+
+    <!-- APARTADO: DINERO A RESERVAR -->
+    <section class="card-glass p-4 mb-5 border-amber-500/20 bg-amber-500/5">
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+          <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
+        </h3>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-2 mb-2">
+        <input type="text" id="reserva-motivo" placeholder="Ej: Para pasarle a mamá" class="input-dark p-2 text-xs w-full">
+        <input type="number" id="reserva-monto" placeholder="Monto ($)" class="input-dark p-2 text-xs w-full" oninput="actualizarCalculoReserva()">
+      </div>
+
+      <div class="p-2.5 rounded-xl bg-slate-900/60 border border-amber-500/10 text-center">
+        <p class="text-[11px] text-slate-300">
+          Si reservas esto, te quedarían: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> en tu billetera.
+        </p>
+      </div>
+    </section>
+
+    <!-- REGISTRAR MOVIMIENTO (GASTO) -->
+    <section class="card-glass p-4 mb-5">
+      <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
+      </h3>
+
+      <form id="form-gasto" class="space-y-2.5">
+        <div class="grid grid-cols-2 gap-2">
+          <input type="number" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
+          <select id="gasto-categoria" class="input-dark p-2.5 text-xs w-full text-slate-200">
+            <option value="SUPERMERCADO">🛒 Supermercado</option>
+            <option value="KIOSKO">🍬 Kiosko</option>
+            <option value="TRANSFERENCIAS">💸 Transferencias</option>
+            <option value="SUSCRIPCIONES">📺 Suscripciones</option>
+          </select>
+        </div>
+        <input type="text" id="gasto-detalle" placeholder="Detalle opcional (Ej: Compras del mes)" class="input-dark p-2.5 text-xs w-full">
+        
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs flex items-center justify-center gap-2 transition-all">
+          <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
+        </button>
+      </form>
+    </section>
+
+    <!-- HISTORIAL DE GASTOS Y BOTÓN DE VER POR CATEGORÍA -->
+    <section class="card-glass p-4 mb-5">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+          <i data-lucide="receipt" class="w-4 h-4 text-blue-400"></i> Historial de Gastos
+        </h3>
+        <button onclick="abrirModalGrafico()" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/30 font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 transition-all">
+          <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Ver por categoría
+        </button>
+      </div>
+
+      <div id="lista-gastos" class="space-y-2 max-h-48 overflow-y-auto custom-scroll pr-1">
+        <!-- Gastos insertados dinámicamente -->
+      </div>
+    </section>
+
+    <!-- PAGOS PENDIENTES (COBROS) -->
+    <section class="card-glass p-4 border-indigo-500/20 bg-indigo-500/5">
+      <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+        <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
+      </h3>
+
+      <form id="form-pendiente" class="grid grid-cols-5 gap-2 mb-3">
+        <input type="text" id="pend-persona" placeholder="De quién (Ej: Pepito)" required class="input-dark p-2 text-xs col-span-2">
+        <input type="number" id="pend-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <div id="lista-pendientes" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
+        <!-- Pendientes insertados dinámicamente -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- MODAL: INGRESO DE DINERO -->
+  <div id="modal-ingreso" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs bg-slate-900 border-emerald-500/30 space-y-4">
+      <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+        <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero
+      </h3>
+      <input type="number" id="ingreso-monto" placeholder="Monto a sumar ($)" class="input-dark p-3 text-sm w-full">
+      <input type="text" id="ingreso-motivo" placeholder="Origen (Ej: Sueldo, Venta...)" class="input-dark p-3 text-sm w-full">
+      
+      <div class="flex gap-2">
+        <button onclick="cerrarModalIngreso()" class="w-1/2 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cancelar</button>
+        <button onclick="confirmarIngreso()" class="w-1/2 py-2 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs">Añadir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: GRÁFICO DE TORTA -->
+  <div id="modal-grafico" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs bg-slate-900 border-blue-500/30 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
+          <i data-lucide="pie-chart" class="w-4 h-4"></i> Gastos por Categoría
+        </h3>
+        <button onclick="cerrarModalGrafico()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="w-full flex justify-center py-2">
+        <canvas id="chart-torta" class="max-w-[220px] max-h-[220px]"></canvas>
+      </div>
+
+      <button onclick="cerrarModalGrafico()" class="w-full py-2 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Cerrar</button>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    // ESTADO DE LA APP
+    let disponible = parseFloat(localStorage.getItem('manu_disponible')) || 0;
+    let gastos = JSON.parse(localStorage.getItem('manu_gastos')) || [];
+    let pendientes = JSON.parse(localStorage.getItem('manu_pendientes')) || [];
+    let chartInstance = null;
+
+    // FECHA Y HORA ACTUAL FORMATO
+    function getFechaHora() {
+      const ahora = new Date();
+      const fecha = ahora.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+      const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      return `${fecha} - ${hora}`;
+    }
+
+    function formatMoney(amount) {
+      return '$' + amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function guardar() {
+      localStorage.setItem('manu_disponible', disponible);
+      localStorage.setItem('manu_gastos', JSON.stringify(gastos));
+      localStorage.setItem('manu_pendientes', JSON.stringify(pendientes));
+      render();
+    }
+
+    // RESERVA PREVIEW
+    function actualizarCalculoReserva() {
+      const montoReserva = parseFloat(document.getElementById('reserva-monto').value) || 0;
+      const restantePreview = disponible - montoReserva;
+      document.getElementById('reserva-restante-preview').textContent = formatMoney(restantePreview);
+    }
+
+    // INGRESO
+    function abrirModalIngreso() {
+      document.getElementById('modal-ingreso').classList.remove('hidden');
+      document.getElementById('modal-ingreso').classList.add('flex');
+    }
+    function cerrarModalIngreso() {
+      document.getElementById('modal-ingreso').classList.add('hidden');
+      document.getElementById('modal-ingreso').classList.remove('flex');
+    }
+    function confirmarIngreso() {
+      const monto = parseFloat(document.getElementById('ingreso-monto').value);
+      if (isNaN(monto) || monto <= 0) return;
+
+      disponible += monto;
+      document.getElementById('ingreso-monto').value = '';
+      document.getElementById('ingreso-motivo').value = '';
+      cerrarModalIngreso();
+      guardar();
+    }
+
+    // REGISTRAR GASTO
+    document.getElementById('form-gasto').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const monto = parseFloat(document.getElementById('gasto-monto').value);
+      const categoria = document.getElementById('gasto-categoria').value;
+      const detalle = document.getElementById('gasto-detalle').value.trim();
+
+      if (isNaN(monto) || monto <= 0) return;
+
+      disponible -= monto;
+      gastos.unshift({
+        id: Date.now(),
+        monto,
+        categoria,
+        detalle: detalle || categoria,
+        fechaHora: getFechaHora()
+      });
+
+      document.getElementById('gasto-monto').value = '';
+      document.getElementById('gasto-detalle').value = '';
+      guardar();
+    });
+
+    // PENDIENTES
+    document.getElementById('form-pendiente').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const persona = document.getElementById('pend-persona').value.trim();
+      const monto = parseFloat(document.getElementById('pend-monto').value);
+
+      if (!persona || isNaN(monto) || monto <= 0) return;
+
+      pendientes.push({ id: Date.now(), persona, monto });
+      document.getElementById('pend-persona').value = '';
+      document.getElementById('pend-monto').value = '';
+      guardar();
+    });
+
+    function recibirPendiente(id) {
+      const item = pendientes.find(p => p.id === id);
+      if (!item) return;
+
+      disponible += item.monto;
+      pendientes = pendientes.filter(p => p.id !== id);
+      guardar();
+    }
+
+    // RENDERIZAR
+    function render() {
+      document.getElementById('total-disponible').textContent = formatMoney(disponible);
+      actualizarCalculoReserva();
+
+      // Render Gastos
+      const listaGastosEl = document.getElementById('lista-gastos');
+      if (gastos.length === 0) {
+        listaGastosEl.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-2">Sin gastos registrados</p>`;
+      } else {
+        listaGastosEl.innerHTML = gastos.map(g => `
+          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/50 border border-slate-800 text-xs">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-slate-200">${g.detalle}</span>
+                <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 font-semibold">${g.categoria}</span>
+              </div>
+              <p class="text-[10px] text-slate-500 mt-0.5">${g.fechaHora}</p>
+            </div>
+            <span class="font-black text-rose-400">-${formatMoney(g.monto)}</span>
+          </div>
+        `).join('');
+      }
+
+      // Render Pendientes
+      const listaPendEl = document.getElementById('lista-pendientes');
+      if (pendientes.length === 0) {
+        listaPendEl.innerHTML = `<p class="text-xs text-slate-500 italic text-center py-2">Sin cobros pendientes</p>`;
+      } else {
+        listaPendEl.innerHTML = pendientes.map(p => `
+          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-900/60 border border-indigo-500/20 text-xs">
+            <div>
+              <p class="font-bold text-slate-200">${p.persona}</p>
+              <p class="text-[10px] text-indigo-400 font-bold">${formatMoney(p.monto)} pendientes</p>
+            </div>
+            <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1">
+              <i data-lucide="check" class="w-3 h-3"></i> Recibido
+            </button>
+          </div>
+        `).join('');
+      }
+
+      lucide.createIcons();
+    }
+
+    // MODAL DE GRÁFICO DE TORTA
+    function abrirModalGrafico() {
+      document.getElementById('modal-grafico').classList.remove('hidden');
+      document.getElementById('modal-grafico').classList.add('flex');
+      renderChart();
+    }
+    function cerrarModalGrafico() {
+      document.getElementById('modal-grafico').classList.add('hidden');
+      document.getElementById('modal-grafico').classList.remove('flex');
+    }
+
+    function renderChart() {
+      const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES'];
+      const totales = categorias.map(cat => {
+        return gastos.filter(g => g.categoria === cat).reduce((acc, curr) => acc + curr.monto, 0);
+      });
+
+      const ctx = document.getElementById('chart-torta').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Supermercado', 'Kiosko', 'Transferencias', 'Suscripciones'],
+          datasets: [{
+            data: totales,
+            backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#8b5cf6'],
+            borderWidth: 2,
+            borderColor: '#0f172a'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#cbd5e1', font: { size: 10 } }
+            }
+          }
+        }
+      });
+    }
+
+    function reiniciarApp() {
+      if (confirm('¿Quieres reiniciar todos los datos de Control de Finanzas?')) {
+        disponible = 0;
+        gastos = [];
+        pendientes = [];
+        guardar();
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
