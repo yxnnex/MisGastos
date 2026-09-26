@@ -102,7 +102,7 @@
 
   <div class="mobile-container flex flex-col justify-between p-4 relative pb-10 overflow-hidden">
     
-    <!-- PANTALLA DE CARGA / SPLASH SCREEN (MUESTRA EL FONDO KYSUO NITIDO Y CLARO) -->
+    <!-- PANTALLA DE CARGA / SPLASH SCREEN -->
     <div id="splash-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center transition-all bg-transparent">
       <div class="card-glass p-8 flex flex-col items-center gap-4 border-blue-400/40 bg-slate-950/70 shadow-2xl backdrop-blur-md">
         <img src="kylian.png" alt="Logo" class="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" onerror="this.style.display='none'">
@@ -135,14 +135,35 @@
       </button>
     </header>
 
-    <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE -->
-    <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
-      <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible</span>
-      <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
+    <!-- TARJETA USD: DINERO EN DÓLARES (PAYPAL) -->
+    <section class="card-glass p-4 mb-3 border-blue-500/30 bg-gradient-to-br from-blue-500/15 via-slate-900/40 to-slate-900/80 text-center relative overflow-hidden">
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-[11px] font-bold text-blue-300 uppercase tracking-widest flex items-center gap-1">
+          <i data-lucide="wallet" class="w-3.5 h-3.5"></i> Saldo en Dólares (PayPal)
+        </span>
+        <div class="flex items-center gap-1">
+          <button onclick="abrirModalAjusteCotizacion()" class="text-[10px] bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-white/10 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
+            ✏️ Cotización
+          </button>
+          <button onclick="abrirModalIngresoUSD()" class="text-[10px] bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
+            + Ingresar USD
+          </button>
+        </div>
+      </div>
       
-      <div class="mt-3 flex justify-center gap-2">
+      <h3 id="total-usd" class="text-2xl font-black text-blue-400 my-1 drop-shadow-[0_2px_10px_rgba(96,165,250,0.3)]">$0,00 USD</h3>
+      <p id="equivalente-uyu-txt" class="text-[11px] text-slate-300 font-medium">Equivalen a $0,00 UYU tras comisiones de PayPal</p>
+    </section>
+
+    <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE (PESOS URUGUAYOS + EQUIVALENTE DÓLARES) -->
+    <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
+      <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
+      <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
+      <p id="desglose-saldo-txt" class="text-[10px] text-slate-400 mb-2">($0,00 Pesos + $0,00 UYU de Dólares)</p>
+      
+      <div class="mt-1 flex justify-center gap-2">
         <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
-          <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar Dinero
+          <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar UYU
         </button>
         <button onclick="abrirModalHistorialIngresos()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-md border border-white/15 transition-all active:scale-95 backdrop-blur-md">
           <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Ver ingresos
@@ -161,10 +182,14 @@
 
       <div id="sec-registrar-gasto" class="mt-3 hidden">
         <form id="form-gasto" class="space-y-3">
-          <div class="grid grid-cols-2 gap-2">
-            <input type="number" step="any" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
-            <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas)" class="input-dark p-2.5 text-xs w-full">
+          <div class="grid grid-cols-3 gap-2">
+            <input type="number" step="any" id="gasto-monto" placeholder="Monto" required class="input-dark p-2.5 text-xs col-span-2">
+            <select id="gasto-moneda" class="input-dark p-2.5 text-xs font-bold col-span-1 text-center">
+              <option value="UYU">UYU ($)</option>
+              <option value="USD">USD ($)</option>
+            </select>
           </div>
+          <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas / Pago Paypal)" class="input-dark p-2.5 text-xs w-full">
 
           <div>
             <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
@@ -213,7 +238,7 @@
       </div>
     </section>
 
-    <!-- PAGOS PENDIENTES (DESPLEGABLE / OCULTO POR DEFECTO) -->
+    <!-- PAGOS PENDIENTES (SOPORTE MULTIMONEDA UYU Y USD) -->
     <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
         <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -223,9 +248,13 @@
       </div>
 
       <div id="sec-pendientes" class="mt-3 hidden">
-        <form id="form-pendiente" class="grid grid-cols-5 gap-2 mb-3">
-          <input type="text" id="pend-persona" placeholder="De quién (Ej: Pepito)" required class="input-dark p-2 text-xs col-span-2">
-          <input type="number" step="any" id="pend-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
+        <form id="form-pendiente" class="grid grid-cols-6 gap-1.5 mb-3">
+          <input type="text" id="pend-persona" placeholder="De quién" required class="input-dark p-2 text-xs col-span-2">
+          <input type="number" step="any" id="pend-monto" placeholder="Monto" required class="input-dark p-2 text-xs col-span-2">
+          <select id="pend-moneda" class="input-dark p-1.5 text-xs font-bold col-span-1 text-center">
+            <option value="UYU">UYU</option>
+            <option value="USD">USD</option>
+          </select>
           <button type="submit" class="bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
             <i data-lucide="plus" class="w-4 h-4"></i>
           </button>
@@ -237,7 +266,7 @@
       </div>
     </section>
 
-    <!-- DINERO A RESERVAR (DESPLEGABLE / OCULTO POR DEFECTO) -->
+    <!-- DINERO A RESERVAR -->
     <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
         <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -271,6 +300,40 @@
 
   </div>
 
+  <!-- MODAL: AJUSTAR COTIZACIÓN PAYPAL / DÓLAR -->
+  <div id="modal-cotizacion" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
+      <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
+        <i data-lucide="edit-3" class="w-4 h-4"></i> Cotización Real PayPal (UYU/USD)
+      </h3>
+      <p class="text-[11px] text-slate-300">
+        Ingresa cuántos Pesos Uruguayos te paga PayPal por cada Dólar después de aplicar sus comisiones:
+      </p>
+      <input type="number" step="any" id="input-cotizacion-manual" placeholder="Ej: 38.5" class="input-dark p-3 text-sm w-full text-center font-bold">
+      
+      <div class="flex gap-2">
+        <button onclick="cerrarModalAjusteCotizacion()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="guardarCotizacionManual()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: INGRESAR DÓLARES (PAYPAL) -->
+  <div id="modal-ingreso-usd" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
+      <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
+        <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dólares (USD)
+      </h3>
+      <input type="number" step="any" id="ingreso-usd-monto" placeholder="Monto en USD ($)" class="input-dark p-3 text-sm w-full">
+      <input type="text" id="ingreso-usd-motivo" placeholder="Origen (Ej: PayPal, Cliente...)" class="input-dark p-3 text-sm w-full">
+      
+      <div class="flex gap-2">
+        <button onclick="cerrarModalIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarIngresoUSD()" class="w-1/2 py-2.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-lg shadow-blue-500/20">Añadir USD</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL GLASS: REINICIAR CON CONTRASEÑA -->
   <div id="modal-reset-clave" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
@@ -300,11 +363,11 @@
     </div>
   </div>
 
-  <!-- MODAL: INGRESO DE DINERO -->
+  <!-- MODAL: INGRESO DE DINERO (UYU) -->
   <div id="modal-ingreso" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4">
       <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
-        <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero
+        <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero (UYU)
       </h3>
       <input type="number" step="any" id="ingreso-monto" placeholder="Monto a sumar ($)" class="input-dark p-3 text-sm w-full">
       <input type="text" id="ingreso-motivo" placeholder="Origen (Ej: Sueldo, Venta...)" class="input-dark p-3 text-sm w-full">
@@ -391,8 +454,49 @@
   <script>
     lucide.createIcons();
 
-    // TEMPORIZADOR DEL SPLASH SCREEN (Mantiene la imagen nítida de fondo)
+    // COTIZACIÓN DEL DÓLAR / PAYPAL PERSISTENTE
+    let cotizacionDolar = parseFloat(localStorage.getItem('manu_cotizacion_usd')) || 38.5;
+
+    async function obtenerCotizacionDolar() {
+      if (!localStorage.getItem('manu_cotizacion_usd')) {
+        try {
+          const res = await fetch('https://open.er-api.com/v6/latest/USD');
+          const data = await res.json();
+          if (data && data.rates && data.rates.UYU) {
+            cotizacionDolar = data.rates.UYU;
+          }
+        } catch (err) {
+          console.warn('Usando cotización de respaldo:', cotizacionDolar);
+        }
+      }
+      render();
+    }
+
+    // AJUSTE MANUAL DE COTIZACIÓN
+    function abrirModalAjusteCotizacion() {
+      document.getElementById('input-cotizacion-manual').value = cotizacionDolar;
+      document.getElementById('modal-cotizacion').classList.remove('hidden');
+      document.getElementById('modal-cotizacion').classList.add('flex');
+    }
+
+    function cerrarModalAjusteCotizacion() {
+      document.getElementById('modal-cotizacion').classList.add('hidden');
+      document.getElementById('modal-cotizacion').classList.remove('flex');
+    }
+
+    function guardarCotizacionManual() {
+      const val = parseFloat(document.getElementById('input-cotizacion-manual').value);
+      if (!isNaN(val) && val > 0) {
+        cotizacionDolar = val;
+        localStorage.setItem('manu_cotizacion_usd', cotizacionDolar);
+        cerrarModalAjusteCotizacion();
+        render();
+      }
+    }
+
+    // TEMPORIZADOR DEL SPLASH SCREEN
     window.addEventListener('DOMContentLoaded', () => {
+      obtenerCotizacionDolar();
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         splash.classList.add('fade-out');
@@ -456,7 +560,8 @@
     }
 
     // ESTADO CON PERSISTENCIA LOCALSTORAGE
-    let disponible = parseFloat(localStorage.getItem('manu_disponible')) || 0;
+    let disponibleUYU = parseFloat(localStorage.getItem('manu_disponible')) || 0;
+    let disponibleUSD = parseFloat(localStorage.getItem('manu_disponible_usd')) || 0;
     let gastos = JSON.parse(localStorage.getItem('manu_gastos')) || [];
     let ingresos = JSON.parse(localStorage.getItem('manu_ingresos')) || [];
     let pendientes = JSON.parse(localStorage.getItem('manu_pendientes')) || [];
@@ -478,12 +583,15 @@
       };
     }
 
-    function formatMoney(amount) {
-      return '$' + amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    function formatMoney(amount, moneda = 'UYU') {
+      const sim = '$';
+      const sufijo = moneda === 'USD' ? ' USD' : '';
+      return sim + amount.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + sufijo;
     }
 
     function guardar() {
-      localStorage.setItem('manu_disponible', disponible);
+      localStorage.setItem('manu_disponible', disponibleUYU);
+      localStorage.setItem('manu_disponible_usd', disponibleUSD);
       localStorage.setItem('manu_gastos', JSON.stringify(gastos));
       localStorage.setItem('manu_ingresos', JSON.stringify(ingresos));
       localStorage.setItem('manu_pendientes', JSON.stringify(pendientes));
@@ -507,7 +615,8 @@
     function confirmarResetClave() {
       const clave = document.getElementById('input-clave-reset').value;
       if (clave === "kylian") {
-        disponible = 0;
+        disponibleUYU = 0;
+        disponibleUSD = 0;
         gastos = [];
         ingresos = [];
         pendientes = [];
@@ -545,6 +654,38 @@
       });
     }
 
+    // MODAL DÓLARES (PAYPAL)
+    function abrirModalIngresoUSD() {
+      document.getElementById('modal-ingreso-usd').classList.remove('hidden');
+      document.getElementById('modal-ingreso-usd').classList.add('flex');
+    }
+    function cerrarModalIngresoUSD() {
+      document.getElementById('modal-ingreso-usd').classList.add('hidden');
+      document.getElementById('modal-ingreso-usd').classList.remove('flex');
+    }
+    function confirmarIngresoUSD() {
+      const monto = parseFloat(document.getElementById('ingreso-usd-monto').value);
+      const motivo = document.getElementById('ingreso-usd-motivo').value.trim() || 'Ingreso PayPal / USD';
+
+      if (isNaN(monto) || monto <= 0) return;
+
+      disponibleUSD += monto;
+      const fh = getFechaHora();
+      ingresos.unshift({
+        id: Date.now(),
+        monto,
+        moneda: 'USD',
+        motivo,
+        fechaHora: fh.full
+      });
+
+      document.getElementById('ingreso-usd-monto').value = '';
+      document.getElementById('ingreso-usd-motivo').value = '';
+      cerrarModalIngresoUSD();
+      reproducirSonidoIngreso();
+      guardar();
+    }
+
     // MODAL E HISTORIAL DE INGRESOS
     function abrirModalIngreso() {
       document.getElementById('modal-ingreso').classList.remove('hidden');
@@ -561,11 +702,12 @@
 
       if (isNaN(monto) || monto <= 0) return;
 
-      disponible += monto;
+      disponibleUYU += monto;
       const fh = getFechaHora();
       ingresos.unshift({
         id: Date.now(),
         monto,
+        moneda: 'UYU',
         motivo,
         fechaHora: fh.full
       });
@@ -599,24 +741,31 @@
             <p class="font-bold text-slate-100">${ing.motivo}</p>
             <p class="text-[10px] text-slate-400">${ing.fechaHora}</p>
           </div>
-          <span class="font-black text-emerald-400">+${formatMoney(ing.monto)}</span>
+          <span class="font-black text-emerald-400">+${formatMoney(ing.monto, ing.moneda || 'UYU')}</span>
         </div>
       `).join('');
     }
 
-    // REGISTRAR GASTO
+    // REGISTRAR GASTO MULTIMONEDA
     document.getElementById('form-gasto').addEventListener('submit', (e) => {
       e.preventDefault();
       const monto = parseFloat(document.getElementById('gasto-monto').value);
+      const moneda = document.getElementById('gasto-moneda').value;
       const detalle = document.getElementById('gasto-detalle').value.trim();
 
       if (isNaN(monto) || monto <= 0) return;
 
-      disponible -= monto;
+      if (moneda === 'USD') {
+        disponibleUSD -= monto;
+      } else {
+        disponibleUYU -= monto;
+      }
+
       const fh = getFechaHora();
       gastos.unshift({
         id: Date.now(),
         monto,
+        moneda,
         categoria: categoriaSeleccionada,
         detalle: detalle || categoriaSeleccionada,
         fechaHora: fh.full,
@@ -636,7 +785,7 @@
       const g = gastos.find(item => item.id === id);
       if (!g) return;
 
-      document.getElementById('monto-restaurar-txt').textContent = formatMoney(g.monto);
+      document.getElementById('monto-restaurar-txt').textContent = formatMoney(g.monto, g.moneda || 'UYU');
       document.getElementById('modal-eliminar-gasto').classList.remove('hidden');
       document.getElementById('modal-eliminar-gasto').classList.add('flex');
     }
@@ -653,7 +802,11 @@
       const gIndex = gastos.findIndex(item => item.id === gastoSeleccionadoId);
       if (gIndex !== -1) {
         if (sumarDinero) {
-          disponible += gastos[gIndex].monto;
+          if (gastos[gIndex].moneda === 'USD') {
+            disponibleUSD += gastos[gIndex].monto;
+          } else {
+            disponibleUYU += gastos[gIndex].monto;
+          }
           gastos.splice(gIndex, 1);
           reproducirSonidoIngreso();
         } else {
@@ -665,15 +818,16 @@
       guardar();
     }
 
-    // PENDIENTES
+    // PENDIENTES CON INGRESO EXACTO EN UYU / USD
     document.getElementById('form-pendiente').addEventListener('submit', (e) => {
       e.preventDefault();
       const persona = document.getElementById('pend-persona').value.trim();
       const monto = parseFloat(document.getElementById('pend-monto').value);
+      const moneda = document.getElementById('pend-moneda').value;
 
       if (!persona || isNaN(monto) || monto <= 0) return;
 
-      pendientes.push({ id: Date.now(), persona, monto });
+      pendientes.push({ id: Date.now(), persona, monto, moneda });
       document.getElementById('pend-persona').value = '';
       document.getElementById('pend-monto').value = '';
       guardar();
@@ -683,14 +837,43 @@
       const item = pendientes.find(p => p.id === id);
       if (!item) return;
 
-      disponible += item.monto;
-      const fh = getFechaHora();
-      ingresos.unshift({
-        id: Date.now(),
-        monto: item.monto,
-        motivo: `Pago pendiente de: ${item.persona}`,
-        fechaHora: fh.full
-      });
+      const monedaAbonar = confirm(`¿Quieres ingresar este pago a tu saldo en DÓLARES (PayPal)?\n\nPresiona ACEPTAR para Dólares (USD) o CANCELAR para Pesos Uruguayos (UYU).`) ? 'USD' : 'UYU';
+
+      if (monedaAbonar === 'USD') {
+        let montoIngresado = item.monto;
+        if (item.moneda === 'UYU') {
+          const resp = prompt(`El pago original era de $${item.monto} UYU.\n¿Cuántos DÓLARES reales recibiste en PayPal?`, (item.monto / cotizacionDolar).toFixed(2));
+          if (!resp) return;
+          montoIngresado = parseFloat(resp);
+        }
+        if (isNaN(montoIngresado) || montoIngresado <= 0) return;
+
+        disponibleUSD += montoIngresado;
+        ingresos.unshift({
+          id: Date.now(),
+          monto: montoIngresado,
+          moneda: 'USD',
+          motivo: `Pago pendiente de: ${item.persona}`,
+          fechaHora: getFechaHora().full
+        });
+      } else {
+        let montoIngresado = item.monto;
+        if (item.moneda === 'USD') {
+          const resp = prompt(`El pago pendiente era de $${item.monto} USD.\n¿Cuántos PESOS URUGUAYOS reales recibiste tras las comisiones de PayPal?`, (item.monto * cotizacionDolar).toFixed(2));
+          if (!resp) return;
+          montoIngresado = parseFloat(resp);
+        }
+        if (isNaN(montoIngresado) || montoIngresado <= 0) return;
+
+        disponibleUYU += montoIngresado;
+        ingresos.unshift({
+          id: Date.now(),
+          monto: montoIngresado,
+          moneda: 'UYU',
+          motivo: `Pago pendiente de: ${item.persona}`,
+          fechaHora: getFechaHora().full
+        });
+      }
 
       pendientes = pendientes.filter(p => p.id !== id);
       reproducirSonidoIngreso();
@@ -719,7 +902,15 @@
 
     // RENDERIZADO GENERAL Y SEPARACIÓN POR MES
     function render() {
-      document.getElementById('total-disponible').textContent = formatMoney(disponible);
+      // Cálculo de equivalente UYU para saldo USD
+      const usdEnUYU = disponibleUSD * cotizacionDolar;
+      const disponibleTotalUYU = disponibleUYU + usdEnUYU;
+
+      document.getElementById('total-usd').textContent = formatMoney(disponibleUSD, 'USD');
+      document.getElementById('equivalente-uyu-txt').textContent = `Equivalen a ${formatMoney(usdEnUYU, 'UYU')} ($${cotizacionDolar.toFixed(2)} UYU/USD)`;
+
+      document.getElementById('total-disponible').textContent = formatMoney(disponibleTotalUYU, 'UYU');
+      document.getElementById('desglose-saldo-txt').textContent = `(${formatMoney(disponibleUYU, 'UYU')} en Pesos + ${formatMoney(usdEnUYU, 'UYU')} de Dólares)`;
 
       // Render Historial de Gastos con Separadores por Mes
       const listaGastosEl = document.getElementById('sec-historial');
@@ -760,7 +951,7 @@
                 <p class="text-[10px] text-slate-400 mt-0.5">${g.fechaHora}</p>
               </div>
               <div class="flex items-center gap-2">
-                <span class="font-black ${esTachado ? 'line-through text-slate-500' : 'text-rose-400'}">-${formatMoney(g.monto)}</span>
+                <span class="font-black ${esTachado ? 'line-through text-slate-500' : 'text-rose-400'}">-${formatMoney(g.monto, g.moneda || 'UYU')}</span>
                 ${!esTachado ? `
                   <button onclick="abrirOpcionesEliminarGasto(${g.id})" title="Eliminar opción" class="text-slate-400 hover:text-rose-400 transition-colors p-1 rounded-lg hover:bg-slate-800/50">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
@@ -782,7 +973,7 @@
           <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-indigo-500/20 backdrop-blur-md text-xs">
             <div>
               <p class="font-bold text-slate-100">${p.persona}</p>
-              <p class="text-[10px] text-indigo-300 font-bold">${formatMoney(p.monto)} pendientes</p>
+              <p class="text-[10px] text-indigo-300 font-bold">${formatMoney(p.monto, p.moneda || 'UYU')} pendientes</p>
             </div>
             <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all flex items-center gap-1 active:scale-95">
               <i data-lucide="check" class="w-3 h-3"></i> Recibido
@@ -793,8 +984,8 @@
 
       // Render Reservas
       const totalReservado = reservas.reduce((acc, r) => acc + r.monto, 0);
-      const restanteReal = disponible - totalReservado;
-      document.getElementById('reserva-restante-preview').textContent = formatMoney(restanteReal);
+      const restanteReal = disponibleTotalUYU - totalReservado;
+      document.getElementById('reserva-restante-preview').textContent = formatMoney(restanteReal, 'UYU');
 
       const listaResEl = document.getElementById('lista-reservas');
       if (reservas.length === 0) {
@@ -804,7 +995,7 @@
           <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-amber-500/20 backdrop-blur-md text-xs">
             <div>
               <p class="font-bold text-slate-100">${r.motivo}</p>
-              <p class="text-[10px] text-amber-300 font-bold">Reservado: ${formatMoney(r.monto)}</p>
+              <p class="text-[10px] text-amber-300 font-bold">Reservado: ${formatMoney(r.monto, 'UYU')}</p>
             </div>
             <button onclick="eliminarReserva(${r.id})" class="text-slate-400 hover:text-rose-400 transition-colors p-1">
               <i data-lucide="trash-2" class="w-4 h-4"></i>
@@ -830,7 +1021,10 @@
     function renderChart() {
       const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES', 'OTROS'];
       const totales = categorias.map(cat => {
-        return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => acc + curr.monto, 0);
+        return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => {
+          const montoEnUYU = g.moneda === 'USD' ? (curr.monto * cotizacionDolar) : curr.monto;
+          return acc + montoEnUYU;
+        }, 0);
       });
 
       const ctx = document.getElementById('chart-torta').getContext('2d');
