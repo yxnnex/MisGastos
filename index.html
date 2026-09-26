@@ -291,7 +291,7 @@
         <div id="sec-reservas" class="mt-3 space-y-3 hidden">
           <form id="form-reserva" class="space-y-2">
             <div class="grid grid-cols-5 gap-2">
-              <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
+              <input type="text" id="reserva-motivo" placeholder="Para (Ej: Alquiler)" required class="input-dark p-2 text-xs col-span-2">
               <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
               <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
                 Reservar
@@ -301,7 +301,7 @@
 
           <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
             <p class="text-[11px] text-slate-200">
-              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
+              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> 
             </p>
           </div>
 
@@ -349,7 +349,7 @@
     <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
       <div class="flex justify-between items-center">
         <h3 class="text-xs font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wide">
-          <i data-lucide="calculator" class="w-4 h-4"></i> Confirmar Monto Real
+          <i data-lucide="calculator" class="w-4 h-4"></i> Confirmar Monto
         </h3>
         <button onclick="cerrarModalMontoReal()" class="text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -376,7 +376,7 @@
   <div id="modal-cotizacion" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
       <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2">
-        <i data-lucide="edit-3" class="w-4 h-4"></i> Cotización Real PayPal (UYU/USD)
+        <i data-lucide="edit-3" class="w-4 h-4"></i> Cotización PayPal (UYU/USD)
       </h3>
       <p class="text-[11px] text-slate-300">
         Ingresa cuántos Pesos Uruguayos te paga PayPal por cada Dólar después de aplicar sus comisiones:
@@ -419,13 +419,13 @@
       </div>
 
       <p class="text-xs text-slate-200 text-center font-medium">
-        Vas a eliminar todo los datos de tu billetera.
+        Vas a eliminar todo los datos de tu billetera Kyliana🦖.
       </p>
 
       <div>
-        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar:</label>
+        <label class="block text-[11px] text-slate-400 mb-1">Ingresa la contraseña para continuar🐻:</label>
         <input type="password" id="input-clave-reset" placeholder="Contraseña..." class="input-dark p-2.5 text-xs w-full">
-        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta</p>
+        <p id="error-clave-txt" class="text-[10px] text-rose-400 mt-1 hidden font-semibold">❌ Contraseña incorrecta🦖</p>
       </div>
 
       <div class="flex gap-2">
