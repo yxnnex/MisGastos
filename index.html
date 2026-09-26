@@ -90,11 +90,21 @@
       box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
     }
 
-    /* Animación de desvanecimiento para el Splash Screen */
+    /* Transición suave de entrada para el contenido */
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Transición de salida para el Splash Screen */
     .fade-out {
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.8s ease-out;
+      transition: opacity 0.6s ease-out;
     }
   </style>
 </head>
@@ -103,8 +113,8 @@
   <div class="mobile-container flex flex-col justify-between p-4 relative pb-10 overflow-hidden">
     
     <!-- PANTALLA DE CARGA / SPLASH SCREEN -->
-    <div id="splash-screen" class="absolute inset-0 z-50 flex flex-col items-center justify-center p-6 text-center transition-all bg-transparent">
-      <div class="card-glass p-8 flex flex-col items-center gap-4 border-blue-400/40 bg-slate-950/70 shadow-2xl backdrop-blur-md">
+    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center transition-all bg-transparent">
+      <div class="card-glass p-8 flex flex-col items-center gap-4 border-blue-400/40 bg-slate-950/80 shadow-2xl backdrop-blur-md max-w-xs w-full">
         <img src="kylian.png" alt="Logo" class="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]" onerror="this.style.display='none'">
         <div>
           <h2 class="text-2xl font-black text-white tracking-wide flex items-center justify-center gap-1.5 drop-shadow-md">
@@ -119,185 +129,247 @@
       </div>
     </div>
 
-    <!-- HEADER CON LOGO Y TACHITO DE BASURA -->
-    <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <!-- Logo de la página -->
-        <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
-        <div>
-          <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
-          <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">M&K</p>
-        </div>
-      </div>
-      <!-- Tachito de Basura con Clave -->
-      <button onclick="abrirModalResetClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/40 rounded-xl border border-rose-500/20 active:scale-95">
-        <i data-lucide="trash-2" class="w-5 h-5"></i>
-      </button>
-    </header>
+    <!-- CONTENIDO PRINCIPAL DE LA BILLETERA -->
+    <main id="app-content" class="hidden flex-col justify-between w-full">
 
-    <!-- TARJETA USD: DINERO EN DÓLARES (PAYPAL) -->
-    <section class="card-glass p-4 mb-3 border-blue-500/30 bg-gradient-to-br from-blue-500/15 via-slate-900/40 to-slate-900/80 text-center relative overflow-hidden">
-      <div class="flex justify-between items-center mb-1">
-        <span class="text-[11px] font-bold text-blue-300 uppercase tracking-widest flex items-center gap-1">
-          <i data-lucide="wallet" class="w-3.5 h-3.5"></i> Saldo en Dólares (PayPal)
-        </span>
-        <div class="flex items-center gap-1">
-          <button onclick="abrirModalAjusteCotizacion()" class="text-[10px] bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-white/10 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
-            ✏️ Cotización
-          </button>
-          <button onclick="abrirModalIngresoUSD()" class="text-[10px] bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
-            + Ingresar USD
-          </button>
-        </div>
-      </div>
-      
-      <h3 id="total-usd" class="text-2xl font-black text-blue-400 my-1 drop-shadow-[0_2px_10px_rgba(96,165,250,0.3)]">$0,00 USD</h3>
-      <p id="equivalente-uyu-txt" class="text-[11px] text-slate-300 font-medium">Equivalen a $0,00 UYU tras comisiones de PayPal</p>
-    </section>
-
-    <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE (PESOS URUGUAYOS + EQUIVALENTE DÓLARES) -->
-    <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
-      <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
-      <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
-      <p id="desglose-saldo-txt" class="text-[10px] text-slate-400 mb-2">($0,00 Pesos + $0,00 UYU de Dólares)</p>
-      
-      <div class="mt-1 flex justify-center gap-2">
-        <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
-          <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar UYU
-        </button>
-        <button onclick="abrirModalHistorialIngresos()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-md border border-white/15 transition-all active:scale-95 backdrop-blur-md">
-          <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Ver ingresos
-        </button>
-      </div>
-    </section>
-
-    <!-- REGISTRAR GASTO (DESPLEGABLE / OCULTO POR DEFECTO) -->
-    <section class="card-glass p-4 mb-4">
-      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-registrar-gasto', 'icon-registrar-gasto')">
-        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
-          <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
-        </h3>
-        <i id="icon-registrar-gasto" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
-      </div>
-
-      <div id="sec-registrar-gasto" class="mt-3 hidden">
-        <form id="form-gasto" class="space-y-3">
-          <div class="grid grid-cols-3 gap-2">
-            <input type="number" step="any" id="gasto-monto" placeholder="Monto" required class="input-dark p-2.5 text-xs col-span-2">
-            <select id="gasto-moneda" class="input-dark p-2.5 text-xs font-bold col-span-1 text-center">
-              <option value="UYU">UYU ($)</option>
-              <option value="USD">USD ($)</option>
-            </select>
-          </div>
-          <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas / Pago Paypal)" class="input-dark p-2.5 text-xs w-full">
-
+      <!-- HEADER CON LOGO Y TACHITO DE BASURA -->
+      <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <!-- Logo de la página -->
+          <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
           <div>
-            <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
-            <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
-              <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-                🛒 Supermercado
-              </button>
-              <button type="button" onclick="seleccionarCategoria('KIOSKO')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-                🍬 Kiosko
-              </button>
-              <button type="button" onclick="seleccionarCategoria('TRANSFERENCIAS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-                💸 Transferencias
-              </button>
-              <button type="button" onclick="seleccionarCategoria('SUSCRIPCIONES')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
-                📺 Suscripciones
-              </button>
-              <button type="button" onclick="seleccionarCategoria('OTROS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1 col-span-2">
-                📦 Otros
-              </button>
-            </div>
+            <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
+            <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">M&K</p>
           </div>
-
-          <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500/90 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
-            <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
-          </button>
-        </form>
-      </div>
-    </section>
-
-    <!-- HISTORIAL DE GASTOS (DESPLEGABLE / OCULTO POR DEFECTO) -->
-    <section class="card-glass p-4 mb-4">
-      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-historial', 'icon-historial')">
-        <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
-          <i data-lucide="receipt" class="w-4 h-4 text-blue-400"></i> Historial de Gastos
-        </h3>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="event.stopPropagation(); abrirModalGrafico();" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 font-bold px-2 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
-            <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Categorías
-          </button>
-          <i id="icon-historial" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
         </div>
-      </div>
+        <!-- Tachito de Basura con Clave -->
+        <button onclick="abrirModalResetClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/40 rounded-xl border border-rose-500/20 active:scale-95">
+          <i data-lucide="trash-2" class="w-5 h-5"></i>
+        </button>
+      </header>
 
-      <div id="sec-historial" class="mt-3 space-y-2 max-h-56 overflow-y-auto custom-scroll pr-1 hidden">
-        <!-- Gastos e hilos por mes insertados dinámicamente -->
-      </div>
-    </section>
-
-    <!-- PAGOS PENDIENTES (SOPORTE MULTIMONEDA UYU Y USD) -->
-    <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
-      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
-        <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
-          <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
-        </h3>
-        <i id="icon-pendientes" data-lucide="chevron-down" class="w-5 h-5 text-indigo-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
-      </div>
-
-      <div id="sec-pendientes" class="mt-3 hidden">
-        <form id="form-pendiente" class="grid grid-cols-6 gap-1.5 mb-3">
-          <input type="text" id="pend-persona" placeholder="De quién" required class="input-dark p-2 text-xs col-span-2">
-          <input type="number" step="any" id="pend-monto" placeholder="Monto" required class="input-dark p-2 text-xs col-span-2">
-          <select id="pend-moneda" class="input-dark p-1.5 text-xs font-bold col-span-1 text-center">
-            <option value="UYU">UYU</option>
-            <option value="USD">USD</option>
-          </select>
-          <button type="submit" class="bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-          </button>
-        </form>
-
-        <div id="lista-pendientes" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
-          <!-- Pendientes insertados dinámicamente -->
-        </div>
-      </div>
-    </section>
-
-    <!-- DINERO A RESERVAR -->
-    <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
-      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
-        <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
-          <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
-        </h3>
-        <i id="icon-reservas" data-lucide="chevron-down" class="w-5 h-5 text-amber-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
-      </div>
-
-      <div id="sec-reservas" class="mt-3 space-y-3 hidden">
-        <form id="form-reserva" class="space-y-2">
-          <div class="grid grid-cols-5 gap-2">
-            <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
-            <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
-            <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
-              Reservar
+      <!-- TARJETA USD: DINERO EN DÓLARES (PAYPAL) -->
+      <section class="card-glass p-4 mb-3 border-blue-500/30 bg-gradient-to-br from-blue-500/15 via-slate-900/40 to-slate-900/80 text-center relative overflow-hidden">
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-[11px] font-bold text-blue-300 uppercase tracking-widest flex items-center gap-1">
+            <i data-lucide="wallet" class="w-3.5 h-3.5"></i> Saldo en Dólares (PayPal)
+          </span>
+          <div class="flex items-center gap-1">
+            <button onclick="abrirModalAjusteCotizacion()" class="text-[10px] bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-white/10 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
+              ✏️ Cotización
+            </button>
+            <button onclick="abrirModalIngresoUSD()" class="text-[10px] bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-lg font-bold transition-all active:scale-95">
+              + Ingresar USD
             </button>
           </div>
-        </form>
+        </div>
+        
+        <h3 id="total-usd" class="text-2xl font-black text-blue-400 my-1 drop-shadow-[0_2px_10px_rgba(96,165,250,0.3)]">$0,00 USD</h3>
+        <p id="equivalente-uyu-txt" class="text-[11px] text-slate-300 font-medium">Equivalen a $0,00 UYU tras comisiones de PayPal</p>
+      </section>
 
-        <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
-          <p class="text-[11px] text-slate-200">
-            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
-          </p>
+      <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE (PESOS URUGUAYOS + EQUIVALENTE DÓLARES) -->
+      <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
+        <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible Total (UYU)</span>
+        <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
+        <p id="desglose-saldo-txt" class="text-[10px] text-slate-400 mb-2">($0,00 Pesos + $0,00 UYU de Dólares)</p>
+        
+        <div class="mt-1 flex justify-center gap-2">
+          <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar UYU
+          </button>
+          <button onclick="abrirModalHistorialIngresos()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-md border border-white/15 transition-all active:scale-95 backdrop-blur-md">
+            <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Ver ingresos
+          </button>
+        </div>
+      </section>
+
+      <!-- REGISTRAR GASTO (DESPLEGABLE / OCULTO POR DEFECTO) -->
+      <section class="card-glass p-4 mb-4">
+        <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-registrar-gasto', 'icon-registrar-gasto')">
+          <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+            <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
+          </h3>
+          <i id="icon-registrar-gasto" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
         </div>
 
-        <div id="lista-reservas" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
-          <!-- Reservas agregadas -->
+        <div id="sec-registrar-gasto" class="mt-3 hidden">
+          <form id="form-gasto" class="space-y-3">
+            <div class="grid grid-cols-3 gap-2">
+              <input type="number" step="any" id="gasto-monto" placeholder="Monto" required class="input-dark p-2.5 text-xs col-span-2">
+              <select id="gasto-moneda" class="input-dark p-2.5 text-xs font-bold col-span-1 text-center">
+                <option value="UYU">UYU ($)</option>
+                <option value="USD">USD ($)</option>
+              </select>
+            </div>
+            <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas / Pago Paypal)" class="input-dark p-2.5 text-xs w-full">
+
+            <div>
+              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
+              <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
+                <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                  🛒 Supermercado
+                </button>
+                <button type="button" onclick="seleccionarCategoria('KIOSKO')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                  🍬 Kiosko
+                </button>
+                <button type="button" onclick="seleccionarCategoria('TRANSFERENCIAS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                  💸 Transferencias
+                </button>
+                <button type="button" onclick="seleccionarCategoria('SUSCRIPCIONES')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
+                  📺 Suscripciones
+                </button>
+                <button type="button" onclick="seleccionarCategoria('OTROS')" class="cat-btn py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1 col-span-2">
+                  📦 Otros
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500/90 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
+              <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
+            </button>
+          </form>
         </div>
+      </section>
+
+      <!-- HISTORIAL DE GASTOS (DESPLEGABLE / OCULTO POR DEFECTO) -->
+      <section class="card-glass p-4 mb-4">
+        <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-historial', 'icon-historial')">
+          <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+            <i data-lucide="receipt" class="w-4 h-4 text-blue-400"></i> Historial de Gastos
+          </h3>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="event.stopPropagation(); abrirModalGrafico();" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 font-bold px-2 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
+              <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Categorías
+            </button>
+            <i id="icon-historial" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
+          </div>
+        </div>
+
+        <div id="sec-historial" class="mt-3 space-y-2 max-h-56 overflow-y-auto custom-scroll pr-1 hidden">
+          <!-- Gastos e hilos por mes insertados dinámicamente -->
+        </div>
+      </section>
+
+      <!-- PAGOS PENDIENTES (SOPORTE MULTIMONEDA UYU Y USD) -->
+      <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
+        <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
+          <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+            <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
+          </h3>
+          <i id="icon-pendientes" data-lucide="chevron-down" class="w-5 h-5 text-indigo-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
+        </div>
+
+        <div id="sec-pendientes" class="mt-3 hidden">
+          <form id="form-pendiente" class="grid grid-cols-6 gap-1.5 mb-3">
+            <input type="text" id="pend-persona" placeholder="De quién" required class="input-dark p-2 text-xs col-span-2">
+            <input type="number" step="any" id="pend-monto" placeholder="Monto" required class="input-dark p-2 text-xs col-span-2">
+            <select id="pend-moneda" class="input-dark p-1.5 text-xs font-bold col-span-1 text-center">
+              <option value="UYU">UYU</option>
+              <option value="USD">USD</option>
+            </select>
+            <button type="submit" class="bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </form>
+
+          <div id="lista-pendientes" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
+            <!-- Pendientes insertados dinámicamente -->
+          </div>
+        </div>
+      </section>
+
+      <!-- DINERO A RESERVAR -->
+      <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
+        <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
+          <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+            <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
+          </h3>
+          <i id="icon-reservas" data-lucide="chevron-down" class="w-5 h-5 text-amber-300 transition-transform duration-200" style="transform: rotate(-90deg);"></i>
+        </div>
+
+        <div id="sec-reservas" class="mt-3 space-y-3 hidden">
+          <form id="form-reserva" class="space-y-2">
+            <div class="grid grid-cols-5 gap-2">
+              <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
+              <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
+              <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
+                Reservar
+              </button>
+            </div>
+          </form>
+
+          <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
+            <p class="text-[11px] text-slate-200">
+              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
+            </p>
+          </div>
+
+          <div id="lista-reservas" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
+            <!-- Reservas agregadas -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- MODAL ESTÉTICO: ELEGIR DESTINO DE COBRO PENDIENTE -->
+  <div id="modal-eleccion-cobro" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-indigo-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-xs font-bold text-indigo-300 flex items-center gap-2 uppercase tracking-wide">
+          <i data-lucide="arrow-down-right" class="w-4 h-4 text-emerald-400"></i> Recibir Pago Pendiente
+        </h3>
+        <button onclick="cerrarModalEleccionCobro()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
       </div>
-    </section>
 
+      <p class="text-xs text-slate-200 text-center font-medium">
+        ¿En qué cuenta deseas ingresar este cobro?
+      </p>
+
+      <div class="space-y-2">
+        <button onclick="seleccionarMonedaCobroDestino('USD')" class="w-full p-3 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+          <i data-lucide="wallet" class="w-4 h-4"></i> Saldo USD (PayPal)
+        </button>
+        <button onclick="seleccionarMonedaCobroDestino('UYU')" class="w-full p-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 font-bold text-xs flex items-center justify-center gap-2 transition-all active:scale-95 shadow-md">
+          <i data-lucide="coins" class="w-4 h-4"></i> Saldo UYU (Pesos)
+        </button>
+      </div>
+
+      <button onclick="cerrarModalEleccionCobro()" class="w-full py-2 rounded-xl bg-slate-800/80 text-slate-400 font-bold text-xs border border-white/10">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL ESTÉTICO: CONFIRMAR MONTO REAL TRAS COMISIONES -->
+  <div id="modal-confirmar-monto-real" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-center">
+        <h3 class="text-xs font-bold text-emerald-400 flex items-center gap-2 uppercase tracking-wide">
+          <i data-lucide="calculator" class="w-4 h-4"></i> Confirmar Monto Real
+        </h3>
+        <button onclick="cerrarModalMontoReal()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <p id="txt-detalles-monto-real" class="text-xs text-slate-200 text-center font-medium leading-relaxed">
+        El pago pendiente original era de $0 USD.
+      </p>
+
+      <div>
+        <label id="lbl-input-monto-real" class="block text-[11px] text-slate-400 mb-1">Monto exacto recibido:</label>
+        <input type="number" step="any" id="input-monto-real-valor" placeholder="Monto real..." class="input-dark p-3 text-sm font-bold w-full text-center">
+      </div>
+
+      <div class="flex gap-2">
+        <button onclick="cerrarModalMontoReal()" class="w-1/2 py-2.5 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+        <button onclick="confirmarIngresoMontoRealFinal()" class="w-1/2 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-lg shadow-emerald-500/20">Aceptar</button>
+      </div>
+    </div>
   </div>
 
   <!-- MODAL: AJUSTAR COTIZACIÓN PAYPAL / DÓLAR -->
@@ -499,10 +571,14 @@
       obtenerCotizacionDolar();
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
+        const appContent = document.getElementById('app-content');
+        
         splash.classList.add('fade-out');
         setTimeout(() => {
           splash.style.display = 'none';
-        }, 800);
+          appContent.classList.remove('hidden');
+          appContent.classList.add('flex', 'fade-in');
+        }, 600);
       }, 1800);
     });
 
@@ -570,6 +646,10 @@
     let categoriaSeleccionada = 'SUPERMERCADO';
     let chartInstance = null;
     let gastoSeleccionadoId = null;
+
+    // ESTADO DE COBRO PENDIENTE EN PROCESO
+    let pendienteActivo = null;
+    let monedaDestinoSeleccionada = 'USD';
 
     function getFechaHora() {
       const ahora = new Date();
@@ -818,7 +898,7 @@
       guardar();
     }
 
-    // PENDIENTES CON INGRESO EXACTO EN UYU / USD
+    // PENDIENTES CON MODALES ESTÉTICOS GLASS
     document.getElementById('form-pendiente').addEventListener('submit', (e) => {
       e.preventDefault();
       const persona = document.getElementById('pend-persona').value.trim();
@@ -837,45 +917,82 @@
       const item = pendientes.find(p => p.id === id);
       if (!item) return;
 
-      const monedaAbonar = confirm(`¿Quieres ingresar este pago a tu saldo en DÓLARES (PayPal)?\n\nPresiona ACEPTAR para Dólares (USD) o CANCELAR para Pesos Uruguayos (UYU).`) ? 'USD' : 'UYU';
+      pendienteActivo = item;
+      document.getElementById('modal-eleccion-cobro').classList.remove('hidden');
+      document.getElementById('modal-eleccion-cobro').classList.add('flex');
+    }
 
-      if (monedaAbonar === 'USD') {
-        let montoIngresado = item.monto;
-        if (item.moneda === 'UYU') {
-          const resp = prompt(`El pago original era de $${item.monto} UYU.\n¿Cuántos DÓLARES reales recibiste en PayPal?`, (item.monto / cotizacionDolar).toFixed(2));
-          if (!resp) return;
-          montoIngresado = parseFloat(resp);
+    function cerrarModalEleccionCobro() {
+      document.getElementById('modal-eleccion-cobro').classList.add('hidden');
+      document.getElementById('modal-eleccion-cobro').classList.remove('flex');
+    }
+
+    function seleccionarMonedaCobroDestino(moneda) {
+      monedaDestinoSeleccionada = moneda;
+      cerrarModalEleccionCobro();
+
+      if (!pendienteActivo) return;
+
+      const txtDetalles = document.getElementById('txt-detalles-monto-real');
+      const lblInput = document.getElementById('lbl-input-monto-real');
+      const inputValor = document.getElementById('input-monto-real-valor');
+
+      if (monedaDestinoSeleccionada === 'USD') {
+        let sugerido = pendienteActivo.monto;
+        if (pendienteActivo.moneda === 'UYU') {
+          sugerido = (pendienteActivo.monto / cotizacionDolar).toFixed(2);
         }
-        if (isNaN(montoIngresado) || montoIngresado <= 0) return;
+        txtDetalles.innerHTML = `El pago de <strong>${pendienteActivo.persona}</strong> era de <strong>${formatMoney(pendienteActivo.monto, pendienteActivo.moneda)}</strong>.`;
+        lblInput.textContent = "Dólares reales ingresados a PayPal:";
+        inputValor.value = sugerido;
+      } else {
+        let sugerido = pendienteActivo.monto;
+        if (pendienteActivo.moneda === 'USD') {
+          sugerido = (pendienteActivo.monto * cotizacionDolar).toFixed(2);
+        }
+        txtDetalles.innerHTML = `El pago de <strong>${pendienteActivo.persona}</strong> era de <strong>${formatMoney(pendienteActivo.monto, pendienteActivo.moneda)}</strong>.`;
+        lblInput.textContent = "Pesos Uruguayos reales recibidos tras comisiones:";
+        inputValor.value = sugerido;
+      }
 
-        disponibleUSD += montoIngresado;
+      document.getElementById('modal-confirmar-monto-real').classList.remove('hidden');
+      document.getElementById('modal-confirmar-monto-real').classList.add('flex');
+    }
+
+    function cerrarModalMontoReal() {
+      document.getElementById('modal-confirmar-monto-real').classList.add('hidden');
+      document.getElementById('modal-confirmar-monto-real').classList.remove('flex');
+      pendienteActivo = null;
+    }
+
+    function confirmarIngresoMontoRealFinal() {
+      if (!pendienteActivo) return;
+
+      const val = parseFloat(document.getElementById('input-monto-real-valor').value);
+      if (isNaN(val) || val <= 0) return;
+
+      if (monedaDestinoSeleccionada === 'USD') {
+        disponibleUSD += val;
         ingresos.unshift({
           id: Date.now(),
-          monto: montoIngresado,
+          monto: val,
           moneda: 'USD',
-          motivo: `Pago pendiente de: ${item.persona}`,
+          motivo: `Pago pendiente de: ${pendienteActivo.persona}`,
           fechaHora: getFechaHora().full
         });
       } else {
-        let montoIngresado = item.monto;
-        if (item.moneda === 'USD') {
-          const resp = prompt(`El pago pendiente era de $${item.monto} USD.\n¿Cuántos PESOS URUGUAYOS reales recibiste tras las comisiones de PayPal?`, (item.monto * cotizacionDolar).toFixed(2));
-          if (!resp) return;
-          montoIngresado = parseFloat(resp);
-        }
-        if (isNaN(montoIngresado) || montoIngresado <= 0) return;
-
-        disponibleUYU += montoIngresado;
+        disponibleUYU += val;
         ingresos.unshift({
           id: Date.now(),
-          monto: montoIngresado,
+          monto: val,
           moneda: 'UYU',
-          motivo: `Pago pendiente de: ${item.persona}`,
+          motivo: `Pago pendiente de: ${pendienteActivo.persona}`,
           fechaHora: getFechaHora().full
         });
       }
 
-      pendientes = pendientes.filter(p => p.id !== id);
+      pendientes = pendientes.filter(p => p.id !== pendienteActivo.id);
+      cerrarModalMontoReal();
       reproducirSonidoIngreso();
       guardar();
     }
