@@ -95,18 +95,19 @@
 
   <div class="mobile-container flex flex-col justify-between p-4 relative pb-10">
     
-    <!-- HEADER CON LOGO Y ESTILO GLASS -->
+    <!-- HEADER CON LOGO Y TACHITO DE BASURA -->
     <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <!-- Logo de la página (Osito) -->
+        <!-- Logo de la página -->
         <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
         <div>
           <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
           <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">M&K</p>
         </div>
       </div>
-      <button onclick="reiniciarApp()" title="Reiniciar datos" class="p-2 text-slate-300 hover:text-rose-400 transition-colors bg-slate-900/40 rounded-xl border border-white/10">
-        <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+      <!-- Tachito de Basura con Clave -->
+      <button onclick="reiniciarConClave()" title="Borrar todo al 0" class="p-2 text-rose-300 hover:text-rose-500 hover:bg-rose-500/20 transition-all bg-slate-900/40 rounded-xl border border-rose-500/20 active:scale-95">
+        <i data-lucide="trash-2" class="w-5 h-5"></i>
       </button>
     </header>
 
@@ -125,22 +126,20 @@
       </div>
     </section>
 
-    <!-- REGISTRAR GASTO (MONTO Y DETALLE ARRIBA DE LAS CATEGORÍAS) -->
+    <!-- REGISTRAR GASTO -->
     <section class="card-glass p-4 mb-4">
       <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-1.5 drop-shadow">
         <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
       </h3>
 
       <form id="form-gasto" class="space-y-3">
-        <!-- Campos Monto y Detalle Arriba -->
         <div class="grid grid-cols-2 gap-2">
           <input type="number" step="any" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
           <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas)" class="input-dark p-2.5 text-xs w-full">
         </div>
 
-        <!-- Categorías Abajo -->
         <div>
-          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
+          <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
           <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
             <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
               🛒 Supermercado
@@ -166,7 +165,7 @@
       </form>
     </section>
 
-    <!-- HISTORIAL DE GASTOS CON SEPARADORES POR MES -->
+    <!-- HISTORIAL DE GASTOS -->
     <section class="card-glass p-4 mb-4">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-historial', 'icon-historial')">
         <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -185,7 +184,7 @@
       </div>
     </section>
 
-    <!-- PAGOS PENDIENTES (DESPLEGABLE CON FLECHA) -->
+    <!-- PAGOS PENDIENTES -->
     <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
         <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -209,7 +208,7 @@
       </div>
     </section>
 
-    <!-- DINERO A RESERVAR (DESPLEGABLE CON FLECHA) -->
+    <!-- DINERO A RESERVAR -->
     <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
       <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
         <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
@@ -221,7 +220,7 @@
       <div id="sec-reservas" class="mt-3 space-y-3">
         <form id="form-reserva" class="space-y-2">
           <div class="grid grid-cols-5 gap-2">
-            <input type="text" id="reserva-motivo" placeholder="Para (Ej: Alquiler)" required class="input-dark p-2 text-xs col-span-2">
+            <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
             <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
             <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
               Reservar
@@ -229,14 +228,12 @@
           </div>
         </form>
 
-        <!-- Resumen del remanente -->
         <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
           <p class="text-[11px] text-slate-200">
-            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> .
+            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
           </p>
         </div>
 
-        <!-- Lista de reservas -->
         <div id="lista-reservas" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
           <!-- Reservas agregadas -->
         </div>
@@ -281,6 +278,38 @@
     </div>
   </div>
 
+  <!-- MODAL: OPCIONES DE ELIMINAR GASTO DE HISTORIAL -->
+  <div id="modal-eliminar-gasto" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-rose-500/40 bg-slate-900/90 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+          <i data-lucide="trash-2" class="w-4 h-4"></i> Opciones de Eliminación
+        </h3>
+        <button onclick="cerrarModalEliminarGasto()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-300 text-center">
+        ¿Qué deseas hacer con este movimiento registrado?
+      </p>
+
+      <div class="space-y-2">
+        <button onclick="procesarEliminarGasto(true)" class="w-full p-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
+          <span class="font-bold flex items-center gap-1"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> Eliminar y sumar dinero (+<span id="monto-restaurar-txt">$0</span>)</span>
+          <span class="text-[10px] text-slate-400 font-normal">Suma el dinero devuelta a tu billetera disponible.</span>
+        </button>
+
+        <button onclick="procesarEliminarGasto(false)" class="w-full p-2.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-left font-semibold text-xs transition-all flex flex-col gap-0.5">
+          <span class="font-bold flex items-center gap-1"><i data-lucide="ban" class="w-3.5 h-3.5"></i> Dejar tachado sin sumar dinero</span>
+          <span class="text-[10px] text-slate-400 font-normal">Mantiene el descuento en billetera pero tacha el gasto.</span>
+        </button>
+      </div>
+
+      <button onclick="cerrarModalEliminarGasto()" class="w-full py-2 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cancelar</button>
+    </div>
+  </div>
+
   <!-- MODAL: GRÁFICO DE TORTA -->
   <div id="modal-grafico" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
@@ -313,6 +342,7 @@
     
     let categoriaSeleccionada = 'SUPERMERCADO';
     let chartInstance = null;
+    let gastoSeleccionadoId = null;
 
     function getFechaHora() {
       const ahora = new Date();
@@ -337,6 +367,24 @@
       localStorage.setItem('manu_pendientes', JSON.stringify(pendientes));
       localStorage.setItem('manu_reservas', JSON.stringify(reservas));
       render();
+    }
+
+    // REINICIAR APP CON CLAVE
+    function reiniciarConClave() {
+      const clave = prompt("Vas a eliminar todo los datos de tu billetera.\n\nIngresa la contraseña para continuar:");
+      if (clave === null) return; // Cancelado
+
+      if (clave === "kylian") {
+        disponible = 0;
+        gastos = [];
+        ingresos = [];
+        pendientes = [];
+        reservas = [];
+        guardar();
+        alert("Billetera reiniciada con éxito.");
+      } else {
+        alert("Contraseña incorrecta. No se borró ningún dato.");
+      }
     }
 
     // DESPLEGAR / OCULTAR SECCIONES
@@ -439,13 +487,50 @@
         categoria: categoriaSeleccionada,
         detalle: detalle || categoriaSeleccionada,
         fechaHora: fh.full,
-        mesAnio: fh.mesAnio
+        mesAnio: fh.mesAnio,
+        tachado: false
       });
 
       document.getElementById('gasto-monto').value = '';
       document.getElementById('gasto-detalle').value = '';
       guardar();
     });
+
+    // OPCIONES DE ELIMINACIÓN DE GASTOS
+    function abrirOpcionesEliminarGasto(id) {
+      gastoSeleccionadoId = id;
+      const g = gastos.find(item => item.id === id);
+      if (!g) return;
+
+      document.getElementById('monto-restaurar-txt').textContent = formatMoney(g.monto);
+      document.getElementById('modal-eliminar-gasto').classList.remove('hidden');
+      document.getElementById('modal-eliminar-gasto').classList.add('flex');
+    }
+
+    function cerrarModalEliminarGasto() {
+      gastoSeleccionadoId = null;
+      document.getElementById('modal-eliminar-gasto').classList.add('hidden');
+      document.getElementById('modal-eliminar-gasto').classList.remove('flex');
+    }
+
+    function procesarEliminarGasto(sumarDinero) {
+      if (!gastoSeleccionadoId) return;
+
+      const gIndex = gastos.findIndex(item => item.id === gastoSeleccionadoId);
+      if (gIndex !== -1) {
+        if (sumarDinero) {
+          // Devuelve el dinero a la billetera y borra el elemento del todo
+          disponible += gastos[gIndex].monto;
+          gastos.splice(gIndex, 1);
+        } else {
+          // No devuelve el dinero y lo deja como tachado/cancelado
+          gastos[gIndex].tachado = true;
+        }
+      }
+
+      cerrarModalEliminarGasto();
+      guardar();
+    }
 
     // PENDIENTES
     document.getElementById('form-pendiente').addEventListener('submit', (e) => {
@@ -522,16 +607,26 @@
             ultimoMes = mesActual;
           }
 
+          const esTachado = g.tachado === true;
+
           htmlGastos += `
-            <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-white/10 backdrop-blur-md text-xs">
+            <div class="flex justify-between items-center p-2.5 rounded-xl ${esTachado ? 'bg-slate-950/20 opacity-60 border-rose-500/20' : 'bg-slate-950/40 border-white/10'} border backdrop-blur-md text-xs transition-all">
               <div>
                 <div class="flex items-center gap-1.5">
-                  <span class="font-bold text-slate-100">${g.detalle}</span>
-                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-white/10 font-semibold">${g.categoria}</span>
+                  <span class="font-bold ${esTachado ? 'line-through text-slate-400' : 'text-slate-100'}">${g.detalle}</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded ${esTachado ? 'bg-rose-950/40 text-rose-300 border-rose-500/20' : 'bg-slate-800/80 text-slate-300 border-white/10'} border font-semibold">${g.categoria}</span>
+                  ${esTachado ? `<span class="text-[9px] text-rose-400 font-bold ml-1">(Cancelado)</span>` : ''}
                 </div>
                 <p class="text-[10px] text-slate-400 mt-0.5">${g.fechaHora}</p>
               </div>
-              <span class="font-black text-rose-400">-${formatMoney(g.monto)}</span>
+              <div class="flex items-center gap-2">
+                <span class="font-black ${esTachado ? 'line-through text-slate-500' : 'text-rose-400'}">-${formatMoney(g.monto)}</span>
+                ${!esTachado ? `
+                  <button onclick="abrirOpcionesEliminarGasto(${g.id})" title="Eliminar opción" class="text-slate-400 hover:text-rose-400 transition-colors p-1 rounded-lg hover:bg-slate-800/50">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                ` : ''}
+              </div>
             </div>
           `;
         });
@@ -594,8 +689,9 @@
 
     function renderChart() {
       const categorias = ['SUPERMERCADO', 'KIOSKO', 'TRANSFERENCIAS', 'SUSCRIPCIONES', 'OTROS'];
+      // Solo sumamos los gastos que NO estén tachados/cancelados
       const totales = categorias.map(cat => {
-        return gastos.filter(g => g.categoria === cat).reduce((acc, curr) => acc + curr.monto, 0);
+        return gastos.filter(g => g.categoria === cat && !g.tachado).reduce((acc, curr) => acc + curr.monto, 0);
       });
 
       const ctx = document.getElementById('chart-torta').getContext('2d');
@@ -622,17 +718,6 @@
           }
         }
       });
-    }
-
-    function reiniciarApp() {
-      if (confirm('¿Quieres reiniciar todos los datos guardados de la app?')) {
-        disponible = 0;
-        gastos = [];
-        ingresos = [];
-        pendientes = [];
-        reservas = [];
-        guardar();
-      }
     }
 
     render();
