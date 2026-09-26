@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Control de Finanzas - Manu</title>
 
+  <!-- Configuración de ícono para Android y navegadores móviles -->
+  <link rel="icon" type="image/png" sizes="192x192" href="kylian.png">
+  <link rel="shortcut icon" href="kylian.png" type="image/png">
+  
+  <!-- Configuración de ícono para iOS / iPhone -->
+  <link rel="apple-touch-icon" href="kylian.png">
+  
+  <!-- Configuración de color de barra de navegación móvil -->
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -86,7 +98,7 @@
     <!-- HEADER CON LOGO Y ESTILO GLASS -->
     <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
       <div class="flex items-center gap-3">
-        <!-- Logo de la página -->
+        <!-- Logo de la página (Osito) -->
         <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
         <div>
           <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
@@ -455,7 +467,6 @@
 
       disponible += item.monto;
       const fh = getFechaHora();
-      // Se guarda también en el historial de ingresos
       ingresos.unshift({
         id: Date.now(),
         monto: item.monto,
