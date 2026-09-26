@@ -16,19 +16,21 @@
       background-color: #090d16;
       color: #f8fafc;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     .mobile-container {
       max-width: 430px;
       margin: 0 auto;
       min-height: 100vh;
-      /* Fondo dinámico con la imagen kysuo.jpg */
-      background: url('kysuo.jpg') center/cover no-repeat fixed #0f172a;
+      /* Fondo dinámico responsivo para móviles */
+      background: url('kysuo.jpg') center top / cover no-repeat fixed #0f172a;
       box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
     }
     
-    /* Estilos Glassmorphism Reforzados */
+    /* Estilos Glassmorphism */
     .card-glass {
-      background: rgba(15, 23, 42, 0.55);
+      background: rgba(15, 23, 42, 0.65);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.15);
@@ -37,7 +39,7 @@
     }
     
     .input-dark {
-      background: rgba(15, 23, 42, 0.4);
+      background: rgba(15, 23, 42, 0.5);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
@@ -49,7 +51,7 @@
     .input-dark:focus {
       outline: none;
       border-color: #3b82f6;
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15, 23, 42, 0.7);
     }
     
     .custom-scroll::-webkit-scrollbar {
@@ -60,7 +62,7 @@
       border-radius: 4px;
     }
 
-    /* Botones de selección de categoría en estilo vidrio */
+    /* Botones de selección de categoría */
     .cat-btn {
       transition: all 0.2s ease;
       border: 1px solid rgba(255, 255, 255, 0.12);
@@ -81,36 +83,50 @@
 
   <div class="mobile-container flex flex-col justify-between p-4 relative pb-10">
     
-    <!-- HEADER CON EFECTO GLASS -->
-    <header class="card-glass p-3.5 mb-5 flex justify-between items-center pt-2">
-      <div>
-        <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
-        <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">Manu</p>
+    <!-- HEADER CON LOGO Y ESTILO GLASS -->
+    <header class="card-glass p-3.5 mb-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <!-- Logo de la página -->
+        <img src="kylian.png" alt="Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.style.display='none'">
+        <div>
+          <h1 class="text-xl font-black text-white tracking-wide drop-shadow">Control de Finanzas</h1>
+          <p class="text-xs text-blue-400 font-bold tracking-wider uppercase">Manu</p>
+        </div>
       </div>
-      <button onclick="reiniciarApp()" class="p-2 text-slate-300 hover:text-rose-400 transition-colors bg-slate-900/40 rounded-xl border border-white/10">
+      <button onclick="reiniciarApp()" title="Reiniciar datos" class="p-2 text-slate-300 hover:text-rose-400 transition-colors bg-slate-900/40 rounded-xl border border-white/10">
         <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
       </button>
     </header>
 
     <!-- BURBUJA PRINCIPAL: DINERO DISPONIBLE -->
-    <section class="card-glass p-6 mb-5 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
+    <section class="card-glass p-5 mb-4 text-center relative overflow-hidden border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 via-slate-900/40 to-slate-900/80">
       <span class="text-xs font-bold text-slate-300 uppercase tracking-widest drop-shadow">Dinero Disponible</span>
       <h2 id="total-disponible" class="text-4xl font-black text-emerald-400 my-2 drop-shadow-[0_2px_10px_rgba(52,211,153,0.3)]">$0,00</h2>
       
-      <div class="mt-3 flex justify-center">
-        <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-5 py-2.5 rounded-full flex items-center gap-2 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
+      <div class="mt-3 flex justify-center gap-2">
+        <button onclick="abrirModalIngreso()" class="bg-emerald-500/90 hover:bg-emerald-500 text-slate-950 font-extrabold text-xs px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg shadow-emerald-500/30 transition-all active:scale-95 border border-emerald-300/40">
           <i data-lucide="plus-circle" class="w-4 h-4"></i> Ingresar Dinero
+        </button>
+        <button onclick="abrirModalHistorialIngresos()" class="bg-slate-800/80 hover:bg-slate-700 text-slate-200 font-bold text-xs px-3.5 py-2 rounded-full flex items-center gap-1.5 shadow-md border border-white/15 transition-all active:scale-95 backdrop-blur-md">
+          <i data-lucide="history" class="w-4 h-4 text-emerald-400"></i> Ver ingresos
         </button>
       </div>
     </section>
 
-    <!-- REGISTRAR MOVIMIENTO (GASTO CON CATEGORÍAS TÁCTILES E INTERFAZ GLASS) -->
-    <section class="card-glass p-4 mb-5">
+    <!-- REGISTRAR GASTO (MONTO Y DETALLE ARRIBA DE LAS CATEGORÍAS) -->
+    <section class="card-glass p-4 mb-4">
       <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-1.5 drop-shadow">
         <i data-lucide="minus-circle" class="w-4 h-4 text-rose-400"></i> Registrar Gasto
       </h3>
 
       <form id="form-gasto" class="space-y-3">
+        <!-- Campos Monto y Detalle Arriba -->
+        <div class="grid grid-cols-2 gap-2">
+          <input type="number" step="any" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
+          <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas)" class="input-dark p-2.5 text-xs w-full">
+        </div>
+
+        <!-- Categorías Abajo -->
         <div>
           <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
           <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
@@ -132,90 +148,98 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2">
-          <input type="number" id="gasto-monto" placeholder="Monto ($)" required class="input-dark p-2.5 text-xs w-full">
-          <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas)" class="input-dark p-2.5 text-xs w-full">
-        </div>
-        
         <button type="submit" class="w-full py-2.5 rounded-xl bg-rose-500/90 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-rose-500/20 border border-rose-400/30 transition-all active:scale-95">
           <i data-lucide="check" class="w-4 h-4"></i> Guardar Gasto
         </button>
       </form>
     </section>
 
-    <!-- HISTORIAL DE GASTOS Y BOTÓN DE VER POR CATEGORÍA -->
-    <section class="card-glass p-4 mb-5">
-      <div class="flex justify-between items-center mb-3">
+    <!-- HISTORIAL DE GASTOS CON SEPARADORES POR MES -->
+    <section class="card-glass p-4 mb-4">
+      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-historial', 'icon-historial')">
         <h3 class="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
           <i data-lucide="receipt" class="w-4 h-4 text-blue-400"></i> Historial de Gastos
         </h3>
-        <button onclick="abrirModalGrafico()" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 font-bold px-2.5 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
-          <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Ver por categoría
-        </button>
-      </div>
-
-      <div id="lista-gastos" class="space-y-2 max-h-48 overflow-y-auto custom-scroll pr-1">
-        <!-- Gastos insertados dinámicamente -->
-      </div>
-    </section>
-
-    <!-- PAGOS PENDIENTES (COBROS) -->
-    <section class="card-glass p-4 mb-5 border-indigo-500/30 bg-indigo-500/10">
-      <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-1.5 drop-shadow">
-        <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
-      </h3>
-
-      <form id="form-pendiente" class="grid grid-cols-5 gap-2 mb-3">
-        <input type="text" id="pend-persona" placeholder="De quién (Ej: Pepito)" required class="input-dark p-2 text-xs col-span-2">
-        <input type="number" id="pend-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
-        <button type="submit" class="bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
-          <i data-lucide="plus" class="w-4 h-4"></i>
-        </button>
-      </form>
-
-      <div id="lista-pendientes" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
-        <!-- Pendientes insertados dinámicamente -->
-      </div>
-    </section>
-
-    <!-- APARTADO: DINERO A RESERVAR -->
-    <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10 space-y-3">
-      <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
-        <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
-      </h3>
-
-      <form id="form-reserva" class="space-y-2">
-        <div class="grid grid-cols-5 gap-2">
-          <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Para mamá)" required class="input-dark p-2 text-xs col-span-2">
-          <input type="number" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
-          <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
-            Reservar
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="event.stopPropagation(); abrirModalGrafico();" class="text-xs bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-400/30 font-bold px-2 py-1 rounded-xl flex items-center gap-1 transition-all backdrop-blur-md">
+            <i data-lucide="pie-chart" class="w-3.5 h-3.5"></i> Categorías
           </button>
+          <i id="icon-historial" data-lucide="chevron-down" class="w-5 h-5 text-slate-300 transition-transform duration-200"></i>
         </div>
-      </form>
-
-      <!-- Resumen del remanente -->
-      <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
-        <p class="text-[11px] text-slate-200">
-          Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
-        </p>
       </div>
 
-      <!-- Lista de reservas -->
-      <div id="lista-reservas" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
-        <!-- Reservas agregadas -->
+      <div id="sec-historial" class="mt-3 space-y-2 max-h-56 overflow-y-auto custom-scroll pr-1">
+        <!-- Gastos e hilos por mes insertados dinámicamente -->
+      </div>
+    </section>
+
+    <!-- PAGOS PENDIENTES (DESPLEGABLE CON FLECHA) -->
+    <section class="card-glass p-4 mb-4 border-indigo-500/30 bg-indigo-500/10">
+      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-pendientes', 'icon-pendientes')">
+        <h3 class="text-xs font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+          <i data-lucide="hand-coins" class="w-4 h-4"></i> Pagos Pendientes a Recibir
+        </h3>
+        <i id="icon-pendientes" data-lucide="chevron-down" class="w-5 h-5 text-indigo-300 transition-transform duration-200"></i>
+      </div>
+
+      <div id="sec-pendientes" class="mt-3">
+        <form id="form-pendiente" class="grid grid-cols-5 gap-2 mb-3">
+          <input type="text" id="pend-persona" placeholder="De quién (Ej: Pepito)" required class="input-dark p-2 text-xs col-span-2">
+          <input type="number" step="any" id="pend-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
+          <button type="submit" class="bg-indigo-600/90 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-indigo-500/20 border border-indigo-400/30">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+          </button>
+        </form>
+
+        <div id="lista-pendientes" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
+          <!-- Pendientes insertados dinámicamente -->
+        </div>
+      </div>
+    </section>
+
+    <!-- DINERO A RESERVAR (DESPLEGABLE CON FLECHA) -->
+    <section class="card-glass p-4 border-amber-500/30 bg-amber-500/10">
+      <div class="flex justify-between items-center cursor-pointer select-none" onclick="toggleSeccion('sec-reservas', 'icon-reservas')">
+        <h3 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5 drop-shadow">
+          <i data-lucide="piggy-bank" class="w-4 h-4"></i> Dinero a Reservar
+        </h3>
+        <i id="icon-reservas" data-lucide="chevron-down" class="w-5 h-5 text-amber-300 transition-transform duration-200"></i>
+      </div>
+
+      <div id="sec-reservas" class="mt-3 space-y-3">
+        <form id="form-reserva" class="space-y-2">
+          <div class="grid grid-cols-5 gap-2">
+            <input type="text" id="reserva-motivo" placeholder="Para qué (Ej: Mamá)" required class="input-dark p-2 text-xs col-span-2">
+            <input type="number" step="any" id="reserva-monto" placeholder="Monto ($)" required class="input-dark p-2 text-xs col-span-2">
+            <button type="submit" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl flex items-center justify-center col-span-1 shadow-lg shadow-amber-500/20 border border-amber-300/40">
+              Reservar
+            </button>
+          </div>
+        </form>
+
+        <!-- Resumen del remanente -->
+        <div class="p-2.5 rounded-xl bg-slate-950/60 border border-amber-500/20 backdrop-blur-md text-center">
+          <p class="text-[11px] text-slate-200">
+            Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
+          </p>
+        </div>
+
+        <!-- Lista de reservas -->
+        <div id="lista-reservas" class="space-y-2 max-h-36 overflow-y-auto custom-scroll pr-1">
+          <!-- Reservas agregadas -->
+        </div>
       </div>
     </section>
 
   </div>
 
-  <!-- MODAL GLASS: INGRESO DE DINERO -->
+  <!-- MODAL: INGRESO DE DINERO -->
   <div id="modal-ingreso" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4">
       <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
         <i data-lucide="arrow-down-left" class="w-4 h-4"></i> Ingresar Dinero
       </h3>
-      <input type="number" id="ingreso-monto" placeholder="Monto a sumar ($)" class="input-dark p-3 text-sm w-full">
+      <input type="number" step="any" id="ingreso-monto" placeholder="Monto a sumar ($)" class="input-dark p-3 text-sm w-full">
       <input type="text" id="ingreso-motivo" placeholder="Origen (Ej: Sueldo, Venta...)" class="input-dark p-3 text-sm w-full">
       
       <div class="flex gap-2">
@@ -225,7 +249,27 @@
     </div>
   </div>
 
-  <!-- MODAL GLASS: GRÁFICO DE TORTA -->
+  <!-- MODAL: HISTORIAL DE INGRESOS -->
+  <div id="modal-historial-ingresos" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
+    <div class="card-glass p-5 w-full max-w-xs border-emerald-500/40 bg-slate-900/90 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+          <i data-lucide="history" class="w-4 h-4"></i> Historial de Ingresos
+        </h3>
+        <button onclick="cerrarModalHistorialIngresos()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div id="lista-ingresos" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-1">
+        <!-- Ingresos cargados dinámicamente -->
+      </div>
+
+      <button onclick="cerrarModalHistorialIngresos()" class="w-full py-2 rounded-xl bg-slate-800/80 text-slate-300 font-bold text-xs border border-white/10">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: GRÁFICO DE TORTA -->
   <div id="modal-grafico" class="fixed inset-0 bg-black/75 backdrop-blur-md hidden items-center justify-center p-4 z-50">
     <div class="card-glass p-5 w-full max-w-xs border-blue-500/40 bg-slate-900/90 space-y-4">
       <div class="flex justify-between items-center">
@@ -248,9 +292,10 @@
   <script>
     lucide.createIcons();
 
-    // ESTADO DE LA APP
+    // ESTADO CON PERSISTENCIA LOCALSTORAGE
     let disponible = parseFloat(localStorage.getItem('manu_disponible')) || 0;
     let gastos = JSON.parse(localStorage.getItem('manu_gastos')) || [];
+    let ingresos = JSON.parse(localStorage.getItem('manu_ingresos')) || [];
     let pendientes = JSON.parse(localStorage.getItem('manu_pendientes')) || [];
     let reservas = JSON.parse(localStorage.getItem('manu_reservas')) || [];
     
@@ -261,7 +306,12 @@
       const ahora = new Date();
       const fecha = ahora.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: '2-digit' });
       const hora = ahora.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
-      return `${fecha} - ${hora}`;
+      const mesAnio = ahora.toLocaleDateString('es-AR', { month: 'long', year: 'numeric' });
+      return {
+        full: `${fecha} - ${hora}`,
+        mesAnio: mesAnio.charAt(0).toUpperCase() + mesAnio.slice(1),
+        timestamp: ahora.getTime()
+      };
     }
 
     function formatMoney(amount) {
@@ -271,12 +321,26 @@
     function guardar() {
       localStorage.setItem('manu_disponible', disponible);
       localStorage.setItem('manu_gastos', JSON.stringify(gastos));
+      localStorage.setItem('manu_ingresos', JSON.stringify(ingresos));
       localStorage.setItem('manu_pendientes', JSON.stringify(pendientes));
       localStorage.setItem('manu_reservas', JSON.stringify(reservas));
       render();
     }
 
-    // SELECCIÓN TÁCTIL DE CATEGORÍAS
+    // DESPLEGAR / OCULTAR SECCIONES
+    function toggleSeccion(idContenedor, idIcono) {
+      const el = document.getElementById(idContenedor);
+      const icon = document.getElementById(idIcono);
+      if (el.classList.contains('hidden')) {
+        el.classList.remove('hidden');
+        if(icon) icon.style.transform = 'rotate(0deg)';
+      } else {
+        el.classList.add('hidden');
+        if(icon) icon.style.transform = 'rotate(-90deg)';
+      }
+    }
+
+    // SELECCIÓN DE CATEGORÍA
     function seleccionarCategoria(cat) {
       categoriaSeleccionada = cat;
       const botones = document.querySelectorAll('#contenedor-categorias .cat-btn');
@@ -289,7 +353,7 @@
       });
     }
 
-    // INGRESO DE DINERO
+    // MODAL E HISTORIAL DE INGRESOS
     function abrirModalIngreso() {
       document.getElementById('modal-ingreso').classList.remove('hidden');
       document.getElementById('modal-ingreso').classList.add('flex');
@@ -298,15 +362,53 @@
       document.getElementById('modal-ingreso').classList.add('hidden');
       document.getElementById('modal-ingreso').classList.remove('flex');
     }
+    
     function confirmarIngreso() {
       const monto = parseFloat(document.getElementById('ingreso-monto').value);
+      const motivo = document.getElementById('ingreso-motivo').value.trim() || 'Ingreso manual';
+
       if (isNaN(monto) || monto <= 0) return;
 
       disponible += monto;
+      const fh = getFechaHora();
+      ingresos.unshift({
+        id: Date.now(),
+        monto,
+        motivo,
+        fechaHora: fh.full
+      });
+
       document.getElementById('ingreso-monto').value = '';
       document.getElementById('ingreso-motivo').value = '';
       cerrarModalIngreso();
       guardar();
+    }
+
+    function abrirModalHistorialIngresos() {
+      document.getElementById('modal-historial-ingresos').classList.remove('hidden');
+      document.getElementById('modal-historial-ingresos').classList.add('flex');
+      renderIngresos();
+    }
+    function cerrarModalHistorialIngresos() {
+      document.getElementById('modal-historial-ingresos').classList.add('hidden');
+      document.getElementById('modal-historial-ingresos').classList.remove('flex');
+    }
+
+    function renderIngresos() {
+      const container = document.getElementById('lista-ingresos');
+      if (ingresos.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-3">No hay ingresos registrados aún</p>`;
+        return;
+      }
+      container.innerHTML = ingresos.map(ing => `
+        <div class="p-2.5 rounded-xl bg-slate-950/40 border border-emerald-500/20 text-xs flex justify-between items-center">
+          <div>
+            <p class="font-bold text-slate-100">${ing.motivo}</p>
+            <p class="text-[10px] text-slate-400">${ing.fechaHora}</p>
+          </div>
+          <span class="font-black text-emerald-400">+${formatMoney(ing.monto)}</span>
+        </div>
+      `).join('');
     }
 
     // REGISTRAR GASTO
@@ -318,12 +420,14 @@
       if (isNaN(monto) || monto <= 0) return;
 
       disponible -= monto;
+      const fh = getFechaHora();
       gastos.unshift({
         id: Date.now(),
         monto,
         categoria: categoriaSeleccionada,
         detalle: detalle || categoriaSeleccionada,
-        fechaHora: getFechaHora()
+        fechaHora: fh.full,
+        mesAnio: fh.mesAnio
       });
 
       document.getElementById('gasto-monto').value = '';
@@ -331,7 +435,7 @@
       guardar();
     });
 
-    // PENDIENTES (COBROS)
+    // PENDIENTES
     document.getElementById('form-pendiente').addEventListener('submit', (e) => {
       e.preventDefault();
       const persona = document.getElementById('pend-persona').value.trim();
@@ -350,11 +454,20 @@
       if (!item) return;
 
       disponible += item.monto;
+      const fh = getFechaHora();
+      // Se guarda también en el historial de ingresos
+      ingresos.unshift({
+        id: Date.now(),
+        monto: item.monto,
+        motivo: `Pago pendiente de: ${item.persona}`,
+        fechaHora: fh.full
+      });
+
       pendientes = pendientes.filter(p => p.id !== id);
       guardar();
     }
 
-    // DINERO A RESERVAR
+    // RESERVAS
     document.getElementById('form-reserva').addEventListener('submit', (e) => {
       e.preventDefault();
       const motivo = document.getElementById('reserva-motivo').value.trim();
@@ -373,27 +486,45 @@
       guardar();
     }
 
-    // RENDERIZADO GENERAL CON ESTILOS GLASS EN FILAS
+    // RENDERIZADO GENERAL Y SEPARACIÓN POR MES
     function render() {
       document.getElementById('total-disponible').textContent = formatMoney(disponible);
 
-      // Render Gastos
-      const listaGastosEl = document.getElementById('lista-gastos');
+      // Render Historial de Gastos con Separadores por Mes
+      const listaGastosEl = document.getElementById('sec-historial');
       if (gastos.length === 0) {
         listaGastosEl.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-2">Sin gastos registrados</p>`;
       } else {
-        listaGastosEl.innerHTML = gastos.map(g => `
-          <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-white/10 backdrop-blur-md text-xs">
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-bold text-slate-100">${g.detalle}</span>
-                <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-white/10 font-semibold">${g.categoria}</span>
+        let htmlGastos = '';
+        let ultimoMes = '';
+
+        gastos.forEach(g => {
+          const mesActual = g.mesAnio || 'General';
+          if (mesActual !== ultimoMes) {
+            htmlGastos += `
+              <div class="flex items-center gap-2 my-2.5">
+                <div class="h-[1px] bg-blue-400/30 flex-1"></div>
+                <span class="text-[10px] font-bold tracking-wider uppercase text-blue-300 bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-400/20">${mesActual}</span>
+                <div class="h-[1px] bg-blue-400/30 flex-1"></div>
               </div>
-              <p class="text-[10px] text-slate-400 mt-0.5">${g.fechaHora}</p>
+            `;
+            ultimoMes = mesActual;
+          }
+
+          htmlGastos += `
+            <div class="flex justify-between items-center p-2.5 rounded-xl bg-slate-950/40 border border-white/10 backdrop-blur-md text-xs">
+              <div>
+                <div class="flex items-center gap-1.5">
+                  <span class="font-bold text-slate-100">${g.detalle}</span>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-slate-800/80 text-slate-300 border border-white/10 font-semibold">${g.categoria}</span>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-0.5">${g.fechaHora}</p>
+              </div>
+              <span class="font-black text-rose-400">-${formatMoney(g.monto)}</span>
             </div>
-            <span class="font-black text-rose-400">-${formatMoney(g.monto)}</span>
-          </div>
-        `).join('');
+          `;
+        });
+        listaGastosEl.innerHTML = htmlGastos;
       }
 
       // Render Pendientes
@@ -439,7 +570,7 @@
       lucide.createIcons();
     }
 
-    // MODAL GRÁFICO
+    // MODAL GRÁFICO DE TORTA
     function abrirModalGrafico() {
       document.getElementById('modal-grafico').classList.remove('hidden');
       document.getElementById('modal-grafico').classList.add('flex');
@@ -483,9 +614,10 @@
     }
 
     function reiniciarApp() {
-      if (confirm('¿Quieres reiniciar todos los datos de Control de Finanzas?')) {
+      if (confirm('¿Quieres reiniciar todos los datos guardados de la app?')) {
         disponible = 0;
         gastos = [];
+        ingresos = [];
         pendientes = [];
         reservas = [];
         guardar();
