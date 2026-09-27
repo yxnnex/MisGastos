@@ -206,7 +206,7 @@
             <input type="text" id="gasto-detalle" placeholder="Detalle (Ej: Galletas / Pago Paypal)" class="input-dark p-2.5 text-xs w-full">
 
             <div>
-              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría (Toca una opción):</label>
+              <label class="block text-[11px] text-slate-300 font-medium mb-1.5">Categoría:</label>
               <div class="grid grid-cols-2 gap-2" id="contenedor-categorias">
                 <button type="button" onclick="seleccionarCategoria('SUPERMERCADO')" class="cat-btn active py-2.5 px-2 rounded-xl text-xs flex items-center justify-center gap-1">
                   🛒 Supermercado
@@ -302,7 +302,7 @@
 
           <div class="p-2.5 rounded-xl bg-slate-950/80 border border-amber-500/25 backdrop-blur-md text-center">
             <p class="text-[11px] text-slate-200">
-              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong> reales.
+              Si mantienes estas reservas, te quedan: <strong id="reserva-restante-preview" class="text-amber-300 font-bold">$0,00</strong>
             </p>
           </div>
 
@@ -840,6 +840,13 @@
       document.getElementById('modal-eleccion-cobro').classList.add('hidden');
       document.getElementById('modal-eleccion-cobro').classList.remove('flex');
     }
+
+    // ELIMINAR PENDIENTE SIN COBRAR (TACHITO)
+    function eliminarPendiente(id) {
+      pendientes = pendientes.filter(p => p.id !== id);
+      guardar();
+    }
+
     function seleccionarMonedaCobroDestino(moneda) {
       monedaDestinoSeleccionada = moneda;
       cerrarModalEleccionCobro();
@@ -957,9 +964,14 @@
               <p class="font-bold text-slate-100">${p.persona}</p>
               <p class="text-[10px] text-indigo-300 font-bold">${formatMoney(p.monto, p.moneda || 'UYU')} pendientes</p>
             </div>
-            <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/30 hover:bg-emerald-500/40 text-emerald-200 border border-emerald-400/40 px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 active:scale-95 shadow-sm">
-              <i data-lucide="check" class="w-3 h-3"></i> Recibido
-            </button>
+            <div class="flex items-center gap-1.5">
+              <button onclick="recibirPendiente(${p.id})" class="bg-emerald-500/30 hover:bg-emerald-500/40 text-emerald-200 border border-emerald-400/40 px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 active:scale-95 shadow-sm">
+                <i data-lucide="check" class="w-3 h-3"></i> Recibido
+              </button>
+              <button onclick="eliminarPendiente(${p.id})" title="Eliminar pendiente" class="text-slate-300 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-800/80 transition-colors">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+              </button>
+            </div>
           </div>
         `).join('');
       }
@@ -986,7 +998,6 @@
       lucide.createIcons();
     }
 
-    // GRÁFICO DE TORTA CORREGIDO (CON RETARDO PARA EVITAR 0X0)
     function abrirModalGrafico() {
       document.getElementById('modal-grafico').classList.remove('hidden');
       document.getElementById('modal-grafico').classList.add('flex');
